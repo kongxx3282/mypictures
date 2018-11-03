@@ -12,8 +12,8 @@ class Version(models.Model):
     is_newest = models.BooleanField(default=True)
     upload_time = models.DateTimeField(auto_now_add=True)
     picture_id = models.ForeignKey('Picture', to_field='picture_id', on_delete=models.CASCADE)
-    original_picture = models.ImageField(upload_to='original')
-    watermark_picture = models.ImageField(upload_to='watermark')
+    original_picture = models.ImageField(upload_to='static/original')
+    watermark_picture = models.ImageField(upload_to='static/watermark')
 
 
 class Favorite(models.Model):
@@ -27,7 +27,7 @@ class PictureVersion(models.Model):
 
 
 class Picture(models.Model):
-    picture_id = models.AutoField(primary_key=True)
+    picture_id = models.IntegerField(primary_key=True, auto_created=True)
     title = models.CharField(max_length=200)
     author = models.ForeignKey('MyUser', to_field='username')
     category = models.CharField(max_length=100)

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recharge</title>
+</head>
+<body>
+<h2><b>豆豆充值</b></h2>
+ <form class="form-horizontal" action="../recharge/" method="post">
+     {% csrf_token %}
+        <label></label><br />
+							 <label>账户名 <input type="text" name = "user_id" class="form-control col-sm-2"/> </label><br /><br/>
+							 <label><input name="query" type="radio" value=50 required />50豆豆/10元 </label>
+							 <label><input name="query" type="radio" value=100 required />100豆豆/20元 </label>
+							 <label><input name="query" type="radio" value=200 required />200豆豆/38元 </label>
+							 <label><input name="query" type="radio" value=300 required />300豆豆/55元 </label>
+     <br /><button type="submit" class="btn btn-info">充值</button>
+ </form>
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+<form class="form-horizontal" action="../show/{{ cate }}" method="post">
+     {% csrf_token %}
+        <label></label><br />
+	    <input type="text" name = "content" class="form-control col-sm-2"/> <br /><br/>
+     <br /><button type="submit" class="btn btn-info">搜索</button>
+ </form>
+
+{% for v in querylist %}
+        <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
+        <img src="/{{v.pic}}" alt="error" width="300" height="300">
+        <p>{{ v.title }}</p>
+            </a>
+        {% endfor %}
+
+</body>
+</html>
