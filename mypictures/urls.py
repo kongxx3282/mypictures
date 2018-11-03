@@ -18,7 +18,18 @@ from django.contrib import admin
 from myapp import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^recharge/', views.recharge),
+    url(r'^recharge/', views.recharge, name='recharge'),
     url(r'^home/', views.home),
     url(r'^show/(\w+)', views.show),
+
+    # /usercenter/
+    url(r'usercenter/$', views.usercenter_index, name='index'),
+    # /usercenter/upload
+    url(r'usercenter/upload/$', views.upload, name='upload'),
+    # /usercenter/edit
+    url(r'usercenter/edit/$', views.edit, name='edit'),
+    # usercenter/myfavorite
+    url(r'usercenter/myfavorite/$', views.myfavorite, name='myfavorite'),
+    # usercenter/recharge
+    # url(r'recharge/$', views.recharge, name='recharge'),
 ]

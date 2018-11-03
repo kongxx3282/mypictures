@@ -91,7 +91,8 @@ def home(request):
 
     return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': alllist})
 
-def show(request,cate):
+
+def show(request, cate):
     newid = []
     allversions = Version.objects.filter(is_newest=True)  # 获取最新版本
     for v in allversions:
@@ -123,3 +124,17 @@ def show(request,cate):
     return render(request, 'show.html', {'querylist': querylist,'cate':cate})
 
 
+def usercenter_index(request):
+    return render(request, 'usercenter/usercenter.html')
+
+
+def upload(request):
+    return render(request, 'usercenter/upload.html')
+
+
+def edit(request):
+    return render(request, 'usercenter/edit.html')
+
+
+def myfavorite(request):
+    return render(request, 'usercenter/myfavorite.html')
