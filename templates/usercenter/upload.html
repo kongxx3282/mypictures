@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户中心 - 作品上传</title>
+</head>
+<body>
+<div>
+    <ul>
+        <a href="{% url 'upload' %}"><li>作品上传</li></a>
+        <a href="{% url 'edit' %}"><li>作品编辑</li></a>
+        <a href="{% url 'myfavorite' %}"><li>我的收藏</li></a>
+        <a href="{% url 'recharge' %}"><li>充值中心</li></a>
+    </ul>
+</div>
+<h1>作品上传</h1>
+
+
+     <form method="post" id='formBox' name="form">
+            <input type="file" accept="image/*" id="chooseImage" name="upload">
+             <p>标题</p><input type="text" name="title">
+             <p>描述</p><input type="text" name="description">
+             <p>分类</p>
+             <select name="category">
+                <option value="animation">动漫</option>
+                <option value="food">美食</option>
+                <option value="scenery">风景</option>
+                <option value="people">人像</option>
+                <option value="other">其它</option>
+             </select>
+      </form>
+
+    <button type="button">上传</button>
+
+
+
+</body>
+</html>

@@ -110,7 +110,8 @@ def home(request):
 
     return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': alllist, 'username':user_name, 'userid':user_id})
 
-def show(request,cate):
+
+def show(request, cate):
     newid = []
     allversions = Version.objects.filter(is_newest=True)  # 获取最新版本
     for v in allversions:
@@ -147,6 +148,7 @@ def getNewCo(img,watermark):
     n1,n2=h[0].shape
     m1,m2=h1[0].shape
 
+<<<<<<< HEAD
     fH=numpy.zeros((n1,n2))#存放编码后的高频系数矩阵  #print(fH.shape)
     fV=numpy.zeros((n1,n2))
     fD=numpy.zeros((n1,n2))
@@ -387,3 +389,19 @@ def my_login(request):
                 return HttpResponse("<script >alert('用户名密码错误');window.location.href='/myapp/login';</script>")
 
     return render(request,'login.html', {'errors': errors})
+=======
+def usercenter_index(request):
+    return render(request, 'usercenter/usercenter.html')
+
+
+def upload(request):
+    return render(request, 'usercenter/upload.html')
+
+
+def edit(request):
+    return render(request, 'usercenter/edit.html')
+
+
+def myfavorite(request):
+    return render(request, 'usercenter/myfavorite.html')
+>>>>>>> 900fbb686fd212cdcf7c2b98a9f2fc4270b024da
