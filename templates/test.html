@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+<img src={{ path }}>
+<button onclick="myFunction()">下载</button>
+<button onclick="window.location.href='{% url 'myapp:collect' %}'">收藏</button>
+<label><a href = "http://127.0.0.1:8000/myapp/{{ username }}"> {{ username }} </a></label>
+<label><a href = "http://127.0.0.1:8000/myapp/logout"> 注销 </a></label><br/>
+
+<p>{{ author }}</p>
+<p>{{ description }}</p>
+<p>{{ favourite }}</p>
+<p>{{ price }}</p>
+</body>
+</html>
+<script>
+function myFunction(){
+    var opt={{ is_download|safe }};
+    var r;
+    var price={{ price|safe }};
+    var is_login={{ is_login|safe }}
+    if(is_login==1){
+    if(opt==0){
+        r=confirm("确认要下载吗,将花费"+price);
+    }
+    else{
+        r=confirm("您已下载过该图片，一个月内可以免费重复下载")
+    }
+	var pid={{ p_id|safe }};
+	if (r==true){
+		window.location.href='{% url 'myapp:download' %}';
+	}
+	else{
+		window.location.href='/myapp/test/'+pid;
+	}}
+	else{
+        alert('请先登录');window.location.href='http://127.0.0.1:8000/myapp/login';
+    }
+}</script>

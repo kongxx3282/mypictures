@@ -11,11 +11,13 @@
 <label><a href = "http://127.0.0.1:8000/show/scenery"> 风景 </a></label>
 <label><a href = "http://127.0.0.1:8000/show/people"> 人像 </a></label>
 <label><a href = "http://127.0.0.1:8000/show/other"> 其它 </a></label><br/>
+<label><a href = "http://127.0.0.1:8000/myapp/{{ username }}"> {{ username }} </a></label>
+<label><a href = "http://127.0.0.1:8000/myapp/logout"> 注销 </a></label><br/>
 
 <form class="form-horizontal" action="../home/" method="post">
      {% csrf_token %}
         <label></label><br />
-							 <input type="text" name = "content" class="form-control col-sm-2"/> <br /><br/>
+		<input type="text" name = "content" class="form-control col-sm-2"/> <br /><br/>
      <br /><button type="submit" class="btn btn-info">搜索</button>
  </form>
 

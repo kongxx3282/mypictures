@@ -27,7 +27,7 @@ class PictureVersion(models.Model):
 
 
 class Picture(models.Model):
-    picture_id = models.IntegerField(primary_key=True, auto_created=True)
+    picture_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     author = models.ForeignKey('MyUser', to_field='username')
     category = models.CharField(max_length=100)

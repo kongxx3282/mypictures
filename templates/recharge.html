@@ -14,8 +14,21 @@
 							 <label><input name="query" type="radio" value=100 required />100豆豆/20元 </label>
 							 <label><input name="query" type="radio" value=200 required />200豆豆/38元 </label>
 							 <label><input name="query" type="radio" value=300 required />300豆豆/55元 </label>
-     <br /><button type="submit" class="btn btn-info">充值</button>
+     <br /><button onclick="myFunction()" type="submit" class="btn btn-info">充值</button>
  </form>
-
+<script>
+function myFunction(){
+	var x;
+	var condition = {{ condition|safe }}
+	if(condition == 1)
+	    var r=confirm("充值成功!");
+	if (r==true){
+		x="你按下了\"确定\"按钮!";
+	}
+	else{
+		x="你按下了\"取消\"按钮!";
+	}
+}
+</script>
 </body>
 </html>
