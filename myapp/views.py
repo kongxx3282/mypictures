@@ -226,25 +226,28 @@ def download_file(request):
         picture=Picture.objects.filter(picture_id=k.picture.picture_id)
         list_p.append(picture)
     list_price=[]
+    list_name=[]
     for i in list_p[0]:
         list_price.append(i.price)
+        list_name.append(i.title)
     record = Download.objects.filter(version=pic, user=user)
     list=[]
     for i in pic:
-        temp=i.original_picture.url
+        temp=i.digital_picture.url
         list.append(temp)
     print(list[0])
-    print(list[0][7:])
-    digital=getwater(list[0][7:])
-    print(digital)
+
+    #digital=getwater(list[0][7:])
+    #print(digital)
     if len(record)>0:
         for i in pic:
             for j in user:
                 Download.objects.create(version=i, user=j, download_time=time)
-                file = open(digital, 'rb')
+                file = open(list[0][1:], 'rb')
                 response = StreamingHttpResponse(file)
                 response['Content-Type'] = 'application/octet-stream'
-                response['Content-Disposition'] = 'attachment;filename="angel.png"'
+                strg='attachment;filename="'+str(list_name[0])+'.png"'
+                response['Content-Disposition'] = strg
                 return response
     for i in user:
         for j in pic:
@@ -255,11 +258,13 @@ def download_file(request):
                 return HttpResponse("<script >alert('余额不足请充值');window.location.href='/myapp/test/" + str(pid) + "';</script>")
             Download.objects.create(version=j, user=i, download_time=time)
 
-    file = open(digital, 'rb')
+    file = open(list[0][1:], 'rb')
     response = StreamingHttpResponse(file)
     response['Content-Type'] = 'application/octet-stream'
-    response['Content-Disposition'] = 'attachment;filename="angel.png"'
+    strg = 'attachment;filename="' + str(list_name[0]) + '.png"'
+    response['Content-Disposition'] = strg
     return response
+
 
 def collect(request):
     uid = request.COOKIES.get('cookie_userid')
