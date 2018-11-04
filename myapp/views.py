@@ -14,42 +14,6 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your views here.
-'''
-def query_result(request):
-    if request.method == 'POST':
-        newid = []
-        version = Version.objects.filter(is_newest=True)  #获取最新版本
-        query_content = request.POST['content']  #获得前端内容
-        query = request.POST['query'] #分类
-        for v in version:
-            id = v.picture_id.picture_id
-            newid.append(id)
-        if (query == 'all'):
-            picture = Picture.objects.filter(title__icontains=query_content).filter(picture_id__in=newid)
-        if (query == 'comic'):
-            picture = Picture.objects.filter(title__icontains=query_content).filter(picture_id__in=newid).filter(category='comic')
-        if (query == 'food'):
-            picture = Picture.objects.filter(title__icontains=query_content).filter(picture_id__in=newid).filter(category='food')
-        if (query == 'scenery'):
-            picture = Picture.objects.filter(title__icontains=query_content).filter(picture_id__in=newid).filter(category='scenery')
-        if (query == 'people'):
-            picture = Picture.objects.filter(title__icontains=query_content).filter(picture_id__in=newid).filter(category='people')
-        if (query == 'other'):
-            picture = Picture.objects.filter(title__icontains=query_content).filter(picture_id__in=newid).filter(category='other')
-
-        idlist = []
-        for pic in picture:
-            id = pic.picture_id
-            idlist.append(id)
-        versions = Version.objects.filter(is_newest=True).filter(picture_id__in=idlist)
-        vlist = []
-
-        for ver in versions:
-            vlist.append({'pic':ver.watermark_picture,'id':ver.version_id})
-
-        return render(request, 'query_result.html', {'vlist': vlist})
-'''
-
 def recharge(request):
     condition = 0
     if request.method == 'POST':
@@ -80,14 +44,15 @@ def home(request):
     alllist = []
     allversions = Version.objects.filter(is_newest=True)  # 获取最新版本
     for v in allversions:
-        id = v.picture_id.picture_id
+        id = v.picture.picture_id
         newid.append(id)
-        alllist.append({'pic': v.watermark_picture, 'id': v.version_id, 'title':v.picture_id.title})
+        alllist.append({'pic': v.watermark_picture.url, 'id': v.version_id, 'title':v.picture.title})
 
     newversions = Version.objects.filter(is_newest=True).order_by('-upload_time')[ :10]   #按照时间降序排列取前10个
     newlist = []
     for n in newversions:
-        newlist.append({'pic':n.watermark_picture,'id':n.version_id, 'title':n.picture_id.title})
+        newlist.append({'pic':n.watermark_picture.url,'id':n.version_id, 'title':n.picture.title})
+
     hotpicture = Picture.objects.filter(picture_id__in=newid).order_by('-favorite_number')[ :10]   #按照收藏数降序排列取前10个
     hlist = []
     for p in hotpicture:
@@ -97,8 +62,8 @@ def home(request):
 
     for h in hlist:
         for v in allversions:
-            if v.picture_id.picture_id == h:
-                hotlist.append({'pic': v.watermark_picture, 'id': v.version_id, 'title':v.picture_id.title})
+            if v.picture.picture_id == h:
+                hotlist.append({'pic': v.watermark_picture.url, 'id': v.version_id, 'title':v.picture.title})
 
     if request.method == 'POST':
         query_content = request.POST['content']  # 获得前端内容
@@ -110,7 +75,7 @@ def home(request):
         queryversion = Version.objects.filter(is_newest=True).filter(picture_id__in=list)
         query = []
         for q in queryversion:
-            query.append({'pic': q.watermark_picture, 'id': q.version_id, 'title':q.picture_id.title})
+            query.append({'pic': q.watermark_picture.url, 'id': q.version_id, 'title':q.picture.title})
         return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': query})
 
     return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': alllist, 'username':user_name, 'userid':user_id})
@@ -120,7 +85,7 @@ def show(request, cate):
     newid = []
     allversions = Version.objects.filter(is_newest=True)  # 获取最新版本
     for v in allversions:
-        id = v.picture_id.picture_id
+        id = v.picture.picture_id
         newid.append(id)
     picture = Picture.objects.filter(picture_id__in=newid).filter(category=cate)
     idlist = []
@@ -130,7 +95,7 @@ def show(request, cate):
     queryversions = Version.objects.filter(is_newest=True).filter(picture_id__in=idlist)
     querylist = []
     for q in queryversions:
-        querylist.append({'pic': q.watermark_picture, 'id': q.version_id, 'title':q.picture_id.title})
+        querylist.append({'pic': q.watermark_picture.url, 'id': q.version_id, 'title':q.picture.title})
 
     if request.method == 'POST':
         query_content = request.POST['content']  # 获得前端内容
@@ -142,7 +107,7 @@ def show(request, cate):
         queryversion = Version.objects.filter(is_newest=True).filter(picture_id__in=list)
         query = []
         for q in queryversion:
-            query.append({'pic': q.watermark_picture, 'id': q.version_id, 'title':q.picture_id.title})
+            query.append({'pic': q.watermark_picture.url, 'id': q.version_id, 'title':q.picture.title})
         return render(request, 'show.html', {'querylist': query,'cate':cate})
 
     return render(request, 'show.html', {'querylist': querylist,'cate':cate})
@@ -154,8 +119,7 @@ def getNewCo(img,watermark):
     n1,n2=h[0].shape
     m1,m2=h1[0].shape
 
-
-    fH=numpy.zeros((n1,n2))#存放编码后的高频系数矩阵  #print(fH.shape)
+    fH=numpy.zeros((n1,n2))
     fV=numpy.zeros((n1,n2))
     fD=numpy.zeros((n1,n2))
 
@@ -173,25 +137,29 @@ def getNewCo(img,watermark):
     coeffs = (a, F)
     return coeffs
 
-
 def getwater(imgurl):
-    img=cv2.imread(imgurl)
-    watermark=cv2.imread('F:/study/DAM/watermarking/watermark.jpg')
+    img=cv2.imread('media/'+imgurl)
+    watermark=cv2.imread('static/markers/marker.png')
+    version=Version.objects.filter(original_picture=imgurl)
+    list=[]
+    for i in version:
+        list.append(i.version_id)
+    print(len(list))
+    saveurl='media/digitalmark/encode'+str(list[0])+'.png'
     b,g,r=cv2.split(img)
     bw,gw,rw=cv2.split(watermark)
     coeffs_b=getNewCo(b,bw)
     coeffs_g=getNewCo(g,gw)
     coeffs_r=getNewCo(r,rw)
 
-
-
     imgb=pywt.idwt2(coeffs_b,'Haar')
     imgr=pywt.idwt2(coeffs_r,'Haar')
     imgg=pywt.idwt2(coeffs_g,'Haar')
 
     img=cv2.merge([imgb, imgg, imgr])
-    cv2.imwrite(imgurl,img)
-
+    cv2.imwrite(saveurl,img)
+    Version.objects.filter(original_picture=imgurl).update(digital_picture=saveurl)
+    return saveurl
 
 def test(request,p_id):
     username = request.COOKIES.get('cookie_username')
@@ -201,7 +169,7 @@ def test(request,p_id):
     uid = request.COOKIES.get('cookie_userid')
     pic=Version.objects.filter(version_id=p_id)
     user=MyUser.objects.filter(user_id=uid)
-    record=Download.objects.filter(version_id=pic,user_id=user)
+    record=Download.objects.filter(version=pic,user=user)
     is_login=0
     if uid is not None:
         is_login=1
@@ -210,8 +178,9 @@ def test(request,p_id):
     list=[]
     for i in pic:
         list.append(i)
-    image_id=list[0].picture_id
-    path='/'+list[0].watermark_picture.url
+    image_id=list[0].picture
+    path=list[0].watermark_picture.url
+    print(path)
     image=Picture.objects.filter(picture_id=image_id.picture_id)
     image_list=[]
     for k in image:
@@ -220,11 +189,14 @@ def test(request,p_id):
     description=image_list[0].description
     favourite=image_list[0].favorite_number
     price=image_list[0].price
-    response=render(request,"test.html",{"p_id":json.dumps(p_id),"is_login":json.dumps(is_login),
+    title=image_list[0].title
+    category=image_list[0].category
+    response=render(request,"test.html",{"p_id":json.dumps(p_id),"title":title,"category":category,"is_login":json.dumps(is_login),
                                          "is_download":json.dumps(is_download),"author":author,"description":description,
                                          "favourite":favourite,"price":json.dumps(price),"path":path, "username":username})
     response.set_cookie('cookie_pid',p_id)
     return response
+
 
 
 def userlogout(request):
@@ -249,17 +221,27 @@ def download_file(request):
     time = datetime.now()
     user = MyUser.objects.filter(user_id=uid)
     pic = Version.objects.filter(version_id=pid)
-    record = Download.objects.filter(version_id=pic, user_id=user)
+    list_p=[]
+    for k in pic:
+        picture=Picture.objects.filter(picture_id=k.picture.picture_id)
+        list_p.append(picture)
+    list_price=[]
+    for i in list_p[0]:
+        list_price.append(i.price)
+    record = Download.objects.filter(version=pic, user=user)
     list=[]
     for i in pic:
         temp=i.original_picture.url
         list.append(temp)
-    #getwater(list[0])
+    print(list[0])
+    print(list[0][7:])
+    digital=getwater(list[0][7:])
+    print(digital)
     if len(record)>0:
         for i in pic:
             for j in user:
-                Download.objects.create(version_id=i, user_id=j, download_time=time)
-                file = open(list[0], 'rb')
+                Download.objects.create(version=i, user=j, download_time=time)
+                file = open(digital, 'rb')
                 response = StreamingHttpResponse(file)
                 response['Content-Type'] = 'application/octet-stream'
                 response['Content-Disposition'] = 'attachment;filename="angel.png"'
@@ -267,17 +249,17 @@ def download_file(request):
     for i in user:
         for j in pic:
             if i.balance>0:
-                balance=i.balance-20
+                balance=i.balance-list_price[0]
                 MyUser.objects.filter(user_id=i.user_id).update(balance=balance)
             else:
                 return HttpResponse("<script >alert('余额不足请充值');window.location.href='/myapp/test/" + str(pid) + "';</script>")
-            Download.objects.create(version_id=j, user_id=i, download_time=time)
-    file = open(list[0], 'rb')
+            Download.objects.create(version=j, user=i, download_time=time)
+
+    file = open(digital, 'rb')
     response = StreamingHttpResponse(file)
     response['Content-Type'] = 'application/octet-stream'
     response['Content-Disposition'] = 'attachment;filename="angel.png"'
     return response
-
 
 def collect(request):
     uid = request.COOKIES.get('cookie_userid')
@@ -289,20 +271,21 @@ def collect(request):
     version=Version.objects.filter(version_id=pid)
     list=[]
     for i in version:
-        pic_id=i.picture_id.picture_id
+        pic_id=i.picture.picture_id
         picture=Picture.objects.filter(picture_id=pic_id)
         for j in picture:
             list.append(j)
     print(len(list))
     for i in list:
         for j in user:
-            if len(Favorite.objects.filter(user_id=j,picture_id=i)) >0:
+            if len(Favorite.objects.filter(user=j,picture=i)) >0:
 
                 return HttpResponse("<script >alert('已在收藏夹中');window.location.href='/myapp/test/"+str(pid)+"';</script>")
             fn=i.favorite_number+1
             Picture.objects.filter(picture_id=i.picture_id).update(favorite_number=fn)
-            Favorite.objects.create(picture_id=i,user_id=j)
+            Favorite.objects.create(picture=i,user=j)
     return HttpResponse("<script >alert('收藏成功');window.location.href='/myapp/test/"+str(pid)+"';</script>")
+
 
 
 def register(request):
@@ -352,7 +335,6 @@ def register(request):
 
     return render(request,'register.html', {'errors': errors})
 
-
 def my_login(request):
     errors =[]
     account = None
@@ -395,6 +377,7 @@ def my_login(request):
                 return HttpResponse("<script >alert('用户名密码错误');window.location.href='/myapp/login';</script>")
 
     return render(request,'login.html', {'errors': errors})
+
 
 
 def usercenter_index(request):

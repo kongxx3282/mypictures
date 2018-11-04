@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2><b>首页</b></h2>
-<label><a href = "http://127.0.0.1:8000/show/comic"> 动漫 </a></label>
+<label><a href = "http://127.0.0.1:8000/show/animation"> 动漫 </a></label>
 <label><a href = "http://127.0.0.1:8000/show/food"> 美食 </a></label>
 <label><a href = "http://127.0.0.1:8000/show/scenery"> 风景 </a></label>
 <label><a href = "http://127.0.0.1:8000/show/people"> 人像 </a></label>
@@ -28,7 +28,7 @@
 <h3><b>最新</b></h3>
         {% for v in newlist %}
         <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="/{{v.pic}}" alt="error" width="300" height="300">
+        <img src="{{v.pic}}" alt="error" width="300" height="300">
         <p>{{ v.title }}</p>
             </a>
         {% endfor %}
@@ -36,7 +36,7 @@
 <h3><b>最热</b></h3>
 {% for v in hotlist %}
         <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="/{{v.pic}}" alt="error" width="300" height="300">
+        <img src="{{v.pic}}" alt="error" width="300" height="300">
         <p>{{ v.title }}</p>
             </a>
         {% endfor %}
@@ -44,7 +44,7 @@
 <h3><b>全部</b></h3>
         {% for v in alllist %}
         <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="/{{v.pic}}" alt="error" width="300" height="300">
+        <img src="{{v.pic}}" alt="error" width="300" height="300">
         <p>{{ v.title }}</p>
             </a>
         {% endfor %}

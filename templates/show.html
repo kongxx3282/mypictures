@@ -14,7 +14,7 @@
 
 {% for v in querylist %}
         <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="/{{v.pic}}" alt="error" width="300" height="300">
+        <img src="{{v.pic}}" alt="error" width="300" height="300">
         <p>{{ v.title }}</p>
             </a>
         {% endfor %}
