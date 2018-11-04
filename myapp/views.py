@@ -432,6 +432,7 @@ def upload(request):
         new_version.picture = new_picture
         # new_version.watermark_picture = original_picture
         new_version.watermark_picture = addmarker(original_picture)
+        new_version.digital_picture = addwatermarker(original_picture)
         new_version.save()
 
         response = HttpResponseRedirect('usercenter/upload')
@@ -440,8 +441,26 @@ def upload(request):
     return render(request, 'usercenter/upload.html')
 
 
-def edit(request):
-    return render(request, 'usercenter/edit.html')
+def edit(request, picture_id):
+    picture = Picture.objects.get(pk=picture_id)
+    versions = picture.version_set.all()
+    for ver in versions:
+        if ver.is_newest:
+            newest_ver = ver
+    return render(request, 'usercenter/edit.html', {'picture': picture, 'newest_ver': newest_ver, 'versions': versions})
+
+
+def pictureinfo(request, picture_id):
+    if request.method == "POST":
+        picture = Picture.objects.get(pk=picture_id)
+        picture.title = request.POST.get('title')
+        picture.description = request.POST.get('description')
+        picture.category = request.POST.get('category')
+        picture.price = request.POST.get('price')
+        picture.save()
+        response = HttpResponseRedirect('usercenter/edit/'+str(picture_id))
+        return response
+    return render(request, 'usercenter/pictureinfo.html')
 
 
 def myfavorite(request):
@@ -479,4 +498,57 @@ def addmarker(original_picture):
         size=original_picture.size,
         charset=None
     )
+    return pic_file
+
+
+def addwatermarker(original_picture):
+    hide = Image.open(original_picture)
+    img = Image.open("static/markers/copyright.png")
+    img = img.resize(hide.size)
+    original = img.convert("P")
+
+    height1 = hide.size[0]
+    width1 = hide.size[1]
+    height2 = original.size[0]
+    width2 = original.size[1]
+
+    # 新建图片
+    result = Image.new("RGB", (height1, width1))
+
+    # 图片隐写
+    for i in range(0, height2):
+        for j in range(0, width2):
+            pix = original.getpixel((i, j))
+            # 提取像素的第7、8位
+            tmp1 = pix >> 6
+            tmp1 = tmp1 & 3
+            # 将提取后的值写入隐藏图片同位置像素R通道的最后两位
+            bit1_hide = hide.getpixel((i, j))[0]
+            bit1_hide = ((bit1_hide >> 2) << 2) + tmp1
+            # 提取像素的第4、5、6位
+            tmp2 = pix >> 3
+            tmp2 = tmp2 & 7
+            # 将提取后的值写入隐藏图片同位置像素G通道的最后三位
+            bit2_hide = hide.getpixel((i, j))[1]
+            bit2_hide = ((bit2_hide >> 3) << 3) + tmp2
+            # 提取像素的第1、2、3位
+            tmp3 = pix & 7
+            # 将提取后的值写入隐藏图片同位置像素B通道的最后三位
+            bit3_hide = hide.getpixel((i, j))[2]
+            bit3_hide = ((bit3_hide >> 3) << 3) + tmp3
+            # 将修改后的RGB值写入新建图片同位置像素中
+            result.putpixel([i, j], (bit1_hide, bit2_hide, bit3_hide))
+
+    pic_io = BytesIO()
+    result.convert('RGB').save(pic_io, 'png')
+
+    pic_file = InMemoryUploadedFile(
+        file=pic_io,
+        field_name=None,
+        name=original_picture.name,
+        content_type=original_picture.content_type,
+        size=original_picture.size,
+        charset=None
+    )
+
     return pic_file

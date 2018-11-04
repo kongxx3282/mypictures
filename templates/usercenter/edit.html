@@ -9,11 +9,24 @@
     <ul>
         <a href="{% url 'home' %}"><li>返回主页</li></a>
         <a href="{% url 'upload' %}"><li>作品上传</li></a>
-        <a href="{% url 'edit' %}"><li>作品编辑</li></a>
+
         <a href="{% url 'myfavorite' %}"><li>我的收藏</li></a>
         <a href="{% url 'recharge' %}"><li>充值中心</li></a>
     </ul>
 </div>
 <h1>作品编辑</h1>
+<div>最新版本</div>
+<img src="{{ newest_ver.original_picture.url }}">
+<p>标题： {{ picture.title }}</p>
+<p>描述： {{ picture.description }}</p>
+<p>分类： {{ picture.category }}</p>
+<p>价值： {{ picture.price }}</p><a href="{% url 'pictureinfo' picture.picture_id %}"><button>编辑</button><br></a>
+<div>上传新版本</div>
+<button>上传</button>
+<div>历史版本</div>
+{% for ver in versions %}
+<img src="{{ ver.original_picture.url }}">
+<button type="button">设为最新</button>
+{% endfor %}
 </body>
 </html>

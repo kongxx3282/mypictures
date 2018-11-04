@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>作品编辑 - 图片信息</title>
+</head>
+<body>
+<form method="post"  name="edit_form" enctype="multipart/form-data">{% csrf_token %}
+             <p>标题</p><input type="text" name="title">
+             <p>描述</p><input type="text" name="description">
+             <p>分类</p>
+             <select name="category">
+                <option value="animation">动漫</option>
+                <option value="food">美食</option>
+                <option value="scenery">风景</option>
+                <option value="people">人像</option>
+                <option value="other">其它</option>
+             </select>
+         <p>价值</p><input type="number" name="price">
+         <a href="#"> <button type="submit">确定</button></a>
+      </form>
+</body>
+</html>
