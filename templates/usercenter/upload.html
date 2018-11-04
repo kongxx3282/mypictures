@@ -17,7 +17,7 @@
 <h1>作品上传</h1>
 
 
-     <form method="post"  name="upload_form">
+     <form method="post"  name="upload_form" enctype="multipart/form-data">{% csrf_token %}
             <input type="file" accept="image/*" id="chooseImage" name="original">
              <p>标题</p><input type="text" name="title">
              <p>描述</p><input type="text" name="description">
@@ -30,10 +30,8 @@
                 <option value="other">其它</option>
              </select>
          <p>价值</p><input type="number" name="price">
+         <a href="{% url 'upload' %}"> <button type="submit">上传</button></a>
       </form>
-
-    <button type="submit">上传</button>
-
 
 
 </body>

@@ -7,6 +7,11 @@ import json
 import cv2
 import pywt
 import numpy
+from django.conf.urls.static import static
+from PIL import Image, ImageDraw, ImageFont
+from django.core.files.base import ContentFile
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your views here.
 '''
@@ -391,25 +396,46 @@ def my_login(request):
 
     return render(request,'login.html', {'errors': errors})
 
+
 def usercenter_index(request):
     user_id = request.COOKIES.get('cookie_userid')
     user_name = request.COOKIES.get('cookie_username')
-    return render(request, 'usercenter/usercenter.html', {'user_id': user_id, 'user_name' : user_name})
+    user = MyUser.objects.get(user_id=user_id)
+    pictures = user.picture_set.all()
+    ver_list = []
+    for pic in pictures:
+        versions = pic.version_set.all()
+        for ver in versions:
+            if ver.is_newest:
+                ver_list.append(ver)
+                break
+    return render(request, 'usercenter/usercenter.html', {'user_id': user_id, 'user_name': user_name, 'ver_list': ver_list})
 
 
 def upload(request):
     if request.method == "POST":
         new_picture = Picture()
-        new_picture.author = request.COOKIES.get('cookie_userid')
+        user_id = request.COOKIES.get('cookie_userid')
+        new_picture.author = MyUser.objects.get(user_id=user_id)
+        new_picture.title = request.POST.get('title')
         new_picture.category = request.POST.get('category')
         new_picture.description = request.POST.get('description')
         new_picture.favorite_number = 0
         new_picture.price = request.POST.get('price')
         new_picture.save()
 
-        new_version  = Version()
+        new_version = Version()
 
+        original_picture = request.FILES['original']
 
+        new_version.original_picture = original_picture
+        new_version.picture = new_picture
+        # new_version.watermark_picture = original_picture
+        new_version.watermark_picture = addmarker(original_picture)
+        new_version.save()
+
+        response = HttpResponseRedirect('usercenter/upload')
+        return response
 
     return render(request, 'usercenter/upload.html')
 
@@ -421,3 +447,36 @@ def edit(request):
 def myfavorite(request):
     return render(request, 'usercenter/myfavorite.html')
 
+
+def addmarker(original_picture):
+    base_image = Image.open(original_picture)
+    watermark = Image.open('static/markers/marker.png')
+    longer_edge = 0 if base_image.size[0] > base_image.size[1] else 1
+
+    if longer_edge == 1:
+        new_width = watermark.size[0]
+        new_length = int(watermark.size[0] * base_image.size[1] / base_image.size[0])
+        base_image = base_image.resize((new_width, new_length))
+        transparent = Image.new('RGBA', (new_width, new_length), (0, 0, 0, 0))
+        transparent.paste(base_image, (0, 0))
+        transparent.paste(watermark, (0, int((new_length - watermark.size[1]) / 2)), mask=watermark)
+    else:
+        new_width = int(watermark.size[1] * base_image.size[0] / base_image.size[1])
+        new_length = watermark.size[1]
+        base_image = base_image.resize((new_width, new_length))
+        transparent = Image.new('RGBA', (new_width, new_length), (0, 0, 0, 0))
+        transparent.paste(base_image, (0, 0))
+        transparent.paste(watermark, (int((new_width - watermark.size[0]) / 2), 0), mask=watermark)
+
+    pic_io = BytesIO()
+    transparent.convert('RGB').save(pic_io, 'png')
+
+    pic_file = InMemoryUploadedFile(
+        file=pic_io,
+        field_name=None,
+        name=original_picture.name,
+        content_type=original_picture.content_type,
+        size=original_picture.size,
+        charset=None
+    )
+    return pic_file

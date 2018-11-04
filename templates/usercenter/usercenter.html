@@ -17,5 +17,8 @@
 <div>
     hello, {{ user_name }}
 </div>
+{% for ver in ver_list %}
+<img src="{{ ver.original_picture.url }}">
+{% endfor %}
 </body>
 </html>
