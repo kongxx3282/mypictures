@@ -142,13 +142,14 @@ def show(request, cate):
 
     return render(request, 'show.html', {'querylist': querylist,'cate':cate})
 
+
 def getNewCo(img,watermark):
     a,h=pywt.dwt2(img,'Haar')
     a1,h1=pywt.dwt2(watermark,'Haar')
     n1,n2=h[0].shape
     m1,m2=h1[0].shape
 
-<<<<<<< HEAD
+
     fH=numpy.zeros((n1,n2))#存放编码后的高频系数矩阵  #print(fH.shape)
     fV=numpy.zeros((n1,n2))
     fD=numpy.zeros((n1,n2))
@@ -389,12 +390,27 @@ def my_login(request):
                 return HttpResponse("<script >alert('用户名密码错误');window.location.href='/myapp/login';</script>")
 
     return render(request,'login.html', {'errors': errors})
-=======
+
 def usercenter_index(request):
-    return render(request, 'usercenter/usercenter.html')
+    user_id = request.COOKIES.get('cookie_userid')
+    user_name = request.COOKIES.get('cookie_username')
+    return render(request, 'usercenter/usercenter.html', {'user_id': user_id, 'user_name' : user_name})
 
 
 def upload(request):
+    if request.method == "POST":
+        new_picture = Picture()
+        new_picture.author = request.COOKIES.get('cookie_userid')
+        new_picture.category = request.POST.get('category')
+        new_picture.description = request.POST.get('description')
+        new_picture.favorite_number = 0
+        new_picture.price = request.POST.get('price')
+        new_picture.save()
+
+        new_version  = Version()
+
+
+
     return render(request, 'usercenter/upload.html')
 
 
@@ -404,4 +420,4 @@ def edit(request):
 
 def myfavorite(request):
     return render(request, 'usercenter/myfavorite.html')
->>>>>>> 900fbb686fd212cdcf7c2b98a9f2fc4270b024da
+

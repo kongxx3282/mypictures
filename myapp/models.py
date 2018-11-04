@@ -32,7 +32,7 @@ class Picture(models.Model):
     author = models.ForeignKey('MyUser', to_field='username')
     category = models.CharField(max_length=100)
     description = models.CharField(max_length=2000)
-    favorite_number = models.IntegerField()
+    favorite_number = models.IntegerField(default=0)
     price = models.IntegerField()
 
 
