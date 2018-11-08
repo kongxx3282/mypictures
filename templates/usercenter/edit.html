@@ -3,13 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>用户中心 - 作品编辑</title>
+
+    <script type="text/javascript">
+    function editPictureInfo()
+    {
+        var info_div = document.getElementById('PictureInfo');
+        info_div.style.display = 'none';
+        var edit_div = document.getElementById('EditInfo');
+        edit_div.style.display = 'block';
+        var edit_btn = document.getElementById('startEdit');
+        edit_btn.style.display = 'none';
+        var confirm_btn = document.getElementById('confirmEdit');
+        confirm_btn.style.display = 'block';
+        var cancel_btn = document.getElementById('cancel_btn');
+        confirm_btn.style.display = 'block';
+
+    }
+
+    function editSubmit()
+    {
+        var edit_form = document.getElementById('editForm');
+        editForm.submit();
+    }
+
+
+    function cancel()
+    {
+        var info_div = document.getElementById('PictureInfo');
+        info_div.style.display = 'block';
+        var edit_div = document.getElementById('EditInfo');
+        edit_div.style.display = 'none';
+        var edit_btn = document.getElementById('startEdit');
+        edit_btn.style.display = 'block';
+        var confirm_btn = document.getElementById('confirmEdit');
+        confirm_btn.style.display = 'none';
+        var upload_btn = document.getElementById('upload_btn');
+        upload_btn.style.display = 'block';
+        var cancel_btn = document.getElementById('cancel_btn');
+        confirm_btn.style.display = 'none';
+
+    }
+</script>
 </head>
 <body>
 <div>
     <ul>
         <a href="{% url 'home' %}"><li>返回主页</li></a>
         <a href="{% url 'upload' %}"><li>作品上传</li></a>
-
         <a href="{% url 'myfavorite' %}"><li>我的收藏</li></a>
         <a href="{% url 'recharge' %}"><li>充值中心</li></a>
     </ul>
@@ -17,16 +57,36 @@
 <h1>作品编辑</h1>
 <div>最新版本</div>
 <img src="{{ newest_ver.original_picture.url }}">
+<div id="PictureInfo">
 <p>标题： {{ picture.title }}</p>
 <p>描述： {{ picture.description }}</p>
 <p>分类： {{ picture.category }}</p>
-<p>价值： {{ picture.price }}</p><a href="{% url 'pictureinfo' picture.picture_id %}"><button>编辑</button><br></a>
-<div>上传新版本</div>
-<button>上传</button>
+<p>价值： {{ picture.price }}</p>
+</div>
+<div id="EditInfo" style="display: none">
+       <form method="post"  name="edit_info" id="editForm" enctype="multipart/form-data">{% csrf_token %}
+             <p>标题：</p><input type="text" name="title" value="{{ picture.title }}">
+             <p>描述：</p><input type="text" name="description" value="{{ picture.description }}">
+             <p>分类：</p>
+             <select name="category" value="{{ picture.category }}">
+                <option value="animation">动漫</option>
+                <option value="food">美食</option>
+                <option value="scenery">风景</option>
+                <option value="people">人像</option>
+                <option value="other">其它</option>
+             </select>
+           <p>价值：</p><input type="number" name="price" value="{{ picture.price }}">
+            <p>上传新版本：</p><input type="file" accept="image/*" name="new_version">
+       </form>
+</div>
+<button id="startEdit" onclick="editPictureInfo()">编辑</button><br>
+<button id="confirmEdit" style="display: none" onclick="editSubmit()">确定</button><br>
+<button id="cancel_btn" style="display: none" onclick="cancel()">取消</button><br>
+
 <div>历史版本</div>
 {% for ver in versions %}
 <img src="{{ ver.original_picture.url }}">
-<button type="button">设为最新</button>
+<button onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">设为最新</button>
 {% endfor %}
 </body>
 </html>

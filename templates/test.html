@@ -6,10 +6,15 @@
 </head>
 
 <body>
+ <a href="{% url 'home' %}">返回主页</a><br>
 <img src={{ path }}>
 <button onclick="myFunction()">下载</button>
 <button onclick="window.location.href='{% url 'myapp:collect' %}'">收藏</button>
+{% ifequal username 'login' %}
 <label><a href = "http://127.0.0.1:8000/myapp/{{ username }}"> {{ username }} </a></label>
+{% else %}
+<label><a href = "{% url 'index' %}"> {{ username }} </a></label>
+{% endifequal %}
 <label><a href = "http://127.0.0.1:8000/myapp/logout"> 注销 </a></label><br/>
 
 <p>图片名：{{ title }}</p>

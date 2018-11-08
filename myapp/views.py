@@ -169,7 +169,7 @@ def test(request,p_id):
     uid = request.COOKIES.get('cookie_userid')
     pic=Version.objects.filter(version_id=p_id)
     user=MyUser.objects.filter(user_id=uid)
-    record=Download.objects.filter(version=pic,user=user)
+    record=Download.objects.filter(version=pic, user=user)
     is_login=0
     if uid is not None:
         is_login=1
@@ -401,6 +401,10 @@ def usercenter_index(request):
 
 
 def upload(request):
+    return render(request, 'usercenter/upload.html')
+
+
+def handle_upload(request):
     if request.method == "POST":
         new_picture = Picture()
         user_id = request.COOKIES.get('cookie_userid')
@@ -413,23 +417,46 @@ def upload(request):
         new_picture.save()
 
         new_version = Version()
-
         original_picture = request.FILES['original']
 
         new_version.original_picture = original_picture
         new_version.picture = new_picture
-        # new_version.watermark_picture = original_picture
         new_version.watermark_picture = addmarker(original_picture)
         new_version.digital_picture = addwatermarker(original_picture)
         new_version.save()
 
-        response = HttpResponseRedirect('usercenter/upload')
+        response = HttpResponse("<script>alert('上传成功');window.location.href='/usercenter/upload/';</script>")
         return response
-
-    return render(request, 'usercenter/upload.html')
+    else:
+        response = HttpResponse("<script>alert('上传失败');window.location.href='/usercenter/upload/';</script>")
+        return response
 
 
 def edit(request, picture_id):
+
+    if request.method == "POST":
+        edit_pic = Picture.objects.get(pk=picture_id)
+        edit_pic.title = request.POST.get('title')
+        edit_pic.category = request.POST.get('category')
+        edit_pic.description = request.POST.get('description')
+        edit_pic.price = request.POST.get('price')
+        edit_pic.save()
+
+        if request.FILES.get('new_version') is not None:
+            pic = Picture.objects.get(pk=picture_id)
+            versions = pic.version_set.all()
+            for ver in versions:
+                if ver.is_newest:
+                    ver.is_newest = False
+                    ver.save()
+            new_version = Version()
+            original_picture = request.FILES['new_version']
+            new_version.original_picture = original_picture
+            new_version.picture = pic
+            new_version.watermark_picture = addmarker(original_picture)
+            new_version.digital_picture = addwatermarker(original_picture)
+            new_version.save()
+
     picture = Picture.objects.get(pk=picture_id)
     versions = picture.version_set.all()
     for ver in versions:
@@ -438,21 +465,32 @@ def edit(request, picture_id):
     return render(request, 'usercenter/edit.html', {'picture': picture, 'newest_ver': newest_ver, 'versions': versions})
 
 
-def pictureinfo(request, picture_id):
-    if request.method == "POST":
-        picture = Picture.objects.get(pk=picture_id)
-        picture.title = request.POST.get('title')
-        picture.description = request.POST.get('description')
-        picture.category = request.POST.get('category')
-        picture.price = request.POST.get('price')
-        picture.save()
-        response = HttpResponseRedirect('usercenter/edit/'+str(picture_id))
-        return response
-    return render(request, 'usercenter/pictureinfo.html')
+def set_ver_version(request, version_id):
+    pic = Version.objects.get(pk=version_id).picture
+    old_ver = pic.version_set.get(is_newest=True)
+    old_ver.is_newest = False
+    old_ver.save()
+    new_ver = pic.version_set.get(version_id=version_id)
+    new_ver.is_newest = True
+    new_ver.save()
+    return HttpResponse("<script >alert('设置成功');window.location.href='/usercenter/edit/" + str(pic.picture_id) + "';</script>")
 
 
 def myfavorite(request):
-    return render(request, 'usercenter/myfavorite.html')
+    user_id = request.COOKIES.get('cookie_userid')
+    user = MyUser.objects.get(user_id=user_id)
+    favorites = Favorite.objects.filter(user=user)
+    pictures = []
+    for favo in favorites:
+        pictures.append(favo.picture)
+    ver_list = []
+    for pic in pictures:
+        versions = pic.version_set.all()
+        for ver in versions:
+            if ver.is_newest:
+                ver_list.append(ver)
+                break
+    return render(request, 'usercenter/myfavorite.html', {'ver_list': ver_list})
 
 
 def addmarker(original_picture):

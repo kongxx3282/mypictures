@@ -15,5 +15,10 @@
     </ul>
 </div>
 <h1>我的收藏</h1>
+{% for ver in ver_list %}
+<a href="{% url 'myapp:detail' ver.version_id %}"><img src="{{ ver.watermark_picture.url }}"></a>
+<a href="#"><p>{{ ver.picture.title }}</p></a>
+<p>作者：{{ ver.picture.author.username }}</p>
+{% endfor %}
 </body>
 </html>

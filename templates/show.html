@@ -5,6 +5,7 @@
     <title>Show</title>
 </head>
 <body>
+ <a href="{% url 'home' %}">返回主页</a><br>
 <form class="form-horizontal" action="../show/{{ cate }}" method="post">
      {% csrf_token %}
         <label></label><br />

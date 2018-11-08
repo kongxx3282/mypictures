@@ -19,6 +19,7 @@
 </div>
 {% for ver in ver_list %}
 <a href="{% url 'edit' ver.picture.picture_id %}"><img src="{{ ver.original_picture.url }}"></a>
+<a href="{% url 'edit' ver.picture.picture_id %}"><p>{{ ver.picture.title }}</p></a>
 {% endfor %}
 </body>
 </html>

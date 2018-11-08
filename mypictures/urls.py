@@ -34,11 +34,11 @@ urlpatterns = [
     url(r'usercenter/upload/$', views.upload, name='upload'),
     # /usercenter/edit
     url(r'^usercenter/edit/(.+)/$', views.edit, name='edit'),
-    # /usercenter/pictureinfo
-    url(r'^usercenter/pictureinfo/(?P<picture_id>[0-9]+)/$', views.pictureinfo, name='pictureinfo'),
     # usercenter/myfavorite
     url(r'usercenter/myfavorite/$', views.myfavorite, name='myfavorite'),
     # usercenter/recharge
     # url(r'recharge/$', views.recharge, name='recharge'),
+    url(r'^usercenter/setnewversion/(.+)/$', views.set_ver_version, name='setnewversion'),
+    url(r'^usercenter/handleupload/$', views.handle_upload, name='handleupload'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
