@@ -7,6 +7,4 @@ DAM course project
 
 ### 数据库现有用户 账号（密码）
 admin(damadmin123)
-test1(test1)
-test2(test2)
-haha
+kxx(kxx)
