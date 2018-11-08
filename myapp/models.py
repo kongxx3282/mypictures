@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from system.storage import ImageStorage
 
 
 class MyUser(AbstractUser):
@@ -12,9 +13,9 @@ class Version(models.Model):
     is_newest = models.BooleanField(default=True)
     upload_time = models.DateTimeField(auto_now_add=True)
     picture = models.ForeignKey('Picture', to_field='picture_id', on_delete=models.CASCADE)
-    original_picture = models.ImageField(upload_to='original')
-    watermark_picture = models.ImageField(upload_to='watermark')
-    digital_picture = models.ImageField(upload_to='digitalmark', default=" ")
+    original_picture = models.ImageField(upload_to='original', storage=ImageStorage())
+    watermark_picture = models.ImageField(upload_to='watermark', storage=ImageStorage())
+    digital_picture = models.ImageField(upload_to='digitalmark', storage=ImageStorage())
 
     def __str__(self):
         return self.picture.title + str(self.version_id)
