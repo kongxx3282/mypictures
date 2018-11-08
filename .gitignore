@@ -1,3 +1,2 @@
-*.sqlite3
 /myapp/__pycache__/*
 /mypictures/__pycache__/*
