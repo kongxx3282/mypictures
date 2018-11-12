@@ -3,22 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <title>用户中心 - 我的收藏</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+          crossorigin="anonymous">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="static/css/layouts/marketing-old-ie.css">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/static/css/layouts/menu.css">
+    <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+
+    <!--<![endif]-->
 </head>
 <body>
-<div>
-    <ul>
-        <a href="{% url 'home' %}"><li>返回主页</li></a>
-        <a href="{% url 'index' %}"><li>作品管理</li></a>
-        <a href="{% url 'upload' %}"><li>作品上传</li></a>
-        <a href="{% url 'myfavorite' %}"><li>我的收藏</li></a>
-        <a href="{% url 'recharge' %}"><li>充值中心</li></a>
-    </ul>
+<div class="header">
+    <div class="custom-menu-wrapper pure-menu-fixed">
+        <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
+            <a href="#" class="pure-menu-heading custom-menu-brand">个人中心</a>
+            <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+        </div>
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            {#            <div class="custom-menu-screen"></div>#}
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">管理</a></li>
+                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link">上传</a></li>
+                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link">收藏</a></li>
+                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link">充值</a></li>
+                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link">返回主站</a></li>
+                {% ifequal username 'login' %}
+                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
+                                                  class="pure-menu-link"> {{ username }} </a></li>
+                {% else %}
+                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
+                    </li>
+                {% endifequal %}
+                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+        <h1>
+            我的收藏
+        </h1>
+    </div>
 </div>
-<h1>我的收藏</h1>
-{% for ver in ver_list %}
-<a href="{% url 'myapp:detail' ver.version_id %}"><img src="{{ ver.watermark_picture.url }}"></a>
-<a href="#"><p>{{ ver.picture.title }}</p></a>
-<p>作者：{{ ver.picture.author.username }}</p>
-{% endfor %}
+<div class="pure-g">
+    {% for ver in ver_list %}
+        <div class="pure-u-4-24">
+        <a href="{% url 'myapp:detail' ver.version_id %}">
+            <img class="pure-img" src="{{ ver.watermark_picture.url }}"></a>
+        <a href="#"><p>{{ ver.picture.title }}</p></a>
+        <p>作者：{{ ver.picture.author.username }}</p>
+        </div>
+    {% endfor %}
+</div>
+
 </body>
+<script>
+    (function (window, document) {
+        document.getElementById('toggle').addEventListener('click', function (e) {
+            document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+            document.getElementById('toggle').classList.toggle('x');
+        });
+    })(this, this.document);
+</script>
 </html>

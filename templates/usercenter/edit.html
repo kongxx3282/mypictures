@@ -3,90 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <title>用户中心 - 作品编辑</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+          crossorigin="anonymous">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
 
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="static/css/layouts/marketing-old-ie.css">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/static/css/layouts/menu.css">
+    <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+
+    <!--<![endif]-->
     <script type="text/javascript">
-    function editPictureInfo()
-    {
-        var info_div = document.getElementById('PictureInfo');
-        info_div.style.display = 'none';
-        var edit_div = document.getElementById('EditInfo');
-        edit_div.style.display = 'block';
-        var edit_btn = document.getElementById('startEdit');
-        edit_btn.style.display = 'none';
-        var confirm_btn = document.getElementById('confirmEdit');
-        confirm_btn.style.display = 'block';
-        var cancel_btn = document.getElementById('cancel_btn');
-        confirm_btn.style.display = 'block';
+        function editPictureInfo() {
+            var info_div = document.getElementById('PictureInfo');
+            info_div.style.display = 'none';
+            var edit_div = document.getElementById('EditInfo');
+            edit_div.style.display = 'block';
+            var edit_btn = document.getElementById('startEdit');
+            edit_btn.style.display = 'none';
+            var confirm_btn = document.getElementById('confirmEdit');
+            confirm_btn.style.display = 'block';
+            var cancel_btn = document.getElementById('cancel_btn');
+            confirm_btn.style.display = 'block';
 
-    }
+        }
 
-    function editSubmit()
-    {
-        var edit_form = document.getElementById('editForm');
-        editForm.submit();
-    }
+        function editSubmit() {
+            var edit_form = document.getElementById('editForm');
+            editForm.submit();
+        }
 
 
-    function cancel()
-    {
-        var info_div = document.getElementById('PictureInfo');
-        info_div.style.display = 'block';
-        var edit_div = document.getElementById('EditInfo');
-        edit_div.style.display = 'none';
-        var edit_btn = document.getElementById('startEdit');
-        edit_btn.style.display = 'block';
-        var confirm_btn = document.getElementById('confirmEdit');
-        confirm_btn.style.display = 'none';
-        var upload_btn = document.getElementById('upload_btn');
-        upload_btn.style.display = 'block';
-        var cancel_btn = document.getElementById('cancel_btn');
-        confirm_btn.style.display = 'none';
+        function cancel() {
+            var info_div = document.getElementById('PictureInfo');
+            info_div.style.display = 'block';
+            var edit_div = document.getElementById('EditInfo');
+            edit_div.style.display = 'none';
+            var edit_btn = document.getElementById('startEdit');
+            edit_btn.style.display = 'block';
+            var confirm_btn = document.getElementById('confirmEdit');
+            confirm_btn.style.display = 'none';
+            var upload_btn = document.getElementById('upload_btn');
+            upload_btn.style.display = 'block';
+            var cancel_btn = document.getElementById('cancel_btn');
+            confirm_btn.style.display = 'none';
 
-    }
-</script>
+        }
+    </script>
 </head>
 <body>
-<div>
-    <ul>
-        <a href="{% url 'home' %}"><li>返回主页</li></a>
-        <a href="{% url 'upload' %}"><li>作品上传</li></a>
-        <a href="{% url 'myfavorite' %}"><li>我的收藏</li></a>
-        <a href="{% url 'recharge' %}"><li>充值中心</li></a>
-    </ul>
+<div class="header">
+    <div class="custom-menu-wrapper pure-menu-fixed">
+        <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
+            <a href="#" class="pure-menu-heading custom-menu-brand">个人中心</a>
+            <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+        </div>
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            {#            <div class="custom-menu-screen"></div>#}
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">管理</a></li>
+                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link">上传</a></li>
+                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link">收藏</a></li>
+                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link">充值</a></li>
+                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link">返回主站</a></li>
+                {% ifequal username 'login' %}
+                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
+                                                  class="pure-menu-link"> {{ username }} </a></li>
+                {% else %}
+                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
+                    </li>
+                {% endifequal %}
+                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+        <h1>
+            编辑作品
+        </h1>
+    </div>
 </div>
-<h1>作品编辑</h1>
 <div>最新版本</div>
 <img src="{{ newest_ver.original_picture.url }}">
 <div id="PictureInfo">
-<p>标题： {{ picture.title }}</p>
-<p>描述： {{ picture.description }}</p>
-<p>分类： {{ picture.category }}</p>
-<p>价值： {{ picture.price }}</p>
+    <p>标题： {{ picture.title }}</p>
+    <p>描述： {{ picture.description }}</p>
+    <p>分类： {{ picture.category }}</p>
+    <p>价值： {{ picture.price }}</p>
 </div>
 <div id="EditInfo" style="display: none">
-       <form method="post"  name="edit_info" id="editForm" enctype="multipart/form-data">{% csrf_token %}
-             <p>标题：</p><input type="text" name="title" value="{{ picture.title }}">
-             <p>描述：</p><input type="text" name="description" value="{{ picture.description }}">
-             <p>分类：</p>
-             <select name="category" value="{{ picture.category }}">
-                <option value="animation">动漫</option>
-                <option value="food">美食</option>
-                <option value="scenery">风景</option>
-                <option value="people">人像</option>
-                <option value="other">其它</option>
-             </select>
-           <p>价值：</p><input type="number" name="price" value="{{ picture.price }}">
-            <p>上传新版本：</p><input type="file" accept="image/*" name="new_version">
-       </form>
+    <form method="post" name="edit_info" id="editForm" enctype="multipart/form-data">{% csrf_token %}
+        <p>标题：</p><input type="text" name="title" value="{{ picture.title }}">
+        <p>描述：</p><input type="text" name="description" value="{{ picture.description }}">
+        <p>分类：</p>
+        <select name="category" value="{{ picture.category }}">
+            <option value="animation">动漫</option>
+            <option value="food">美食</option>
+            <option value="scenery">风景</option>
+            <option value="people">人像</option>
+            <option value="other">其它</option>
+        </select>
+        <p>价值：</p><input type="number" name="price" value="{{ picture.price }}">
+        <p>上传新版本：</p><input type="file" accept="image/*" name="new_version">
+    </form>
 </div>
-<button id="startEdit" onclick="editPictureInfo()">编辑</button><br>
-<button id="confirmEdit" style="display: none" onclick="editSubmit()">确定</button><br>
-<button id="cancel_btn" style="display: none" onclick="cancel()">取消</button><br>
+<button id="startEdit" onclick="editPictureInfo()">编辑</button>
+<br>
+<button id="confirmEdit" style="display: none" onclick="editSubmit()">确定</button>
+<br>
+<button id="cancel_btn" style="display: none" onclick="cancel()">取消</button>
+<br>
 
 <div>历史版本</div>
 {% for ver in versions %}
-<img src="{{ ver.original_picture.url }}">
-<button onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">设为最新</button>
+    <img src="{{ ver.original_picture.url }}">
+    <button onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">设为最新</button>
 {% endfor %}
 </body>
 </html>
