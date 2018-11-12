@@ -80,7 +80,7 @@ def home(request):
         query = []
         for q in queryversion:
             query.append({'pic': q.watermark_picture.url, 'id': q.version_id, 'title':q.picture.title})
-        return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': query})
+        return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': query, 'username':user_name})
 
     return render(request, 'home.html', {'newlist': newlist, 'hotlist': hotlist, 'alllist': alllist, 'username':user_name, 'userid':user_id})
 
@@ -115,7 +115,7 @@ def show(request, cate):
         query = []
         for q in queryversion:
             query.append({'pic': q.watermark_picture.url, 'id': q.version_id, 'title':q.picture.title})
-        return render(request, 'show.html', {'querylist': query,'cate':cate})
+        return render(request, 'show.html', {'querylist': query,'cate':cate, 'username':user_name})
 
     return render(request, 'show.html', {'querylist': querylist,'cate':cate, 'username':user_name})
 
@@ -187,14 +187,16 @@ def test(request,p_id):
         list.append(i)
     image_id=list[0].picture
     path=list[0].watermark_picture.url
+    print(path)
     image=Picture.objects.filter(picture_id=image_id.picture_id)
     image_list=[]
     for k in image:
         image_list.append(k)
     is_myself=0
+    if uid is not None:
 
-    if image_list[0].author.user_id==int(uid):
-        is_myself=1
+        if image_list[0].author.user_id==int(uid):
+            is_myself=1
 
     author=image_list[0].author
     description=image_list[0].description
@@ -207,6 +209,7 @@ def test(request,p_id):
                                          "favourite":favourite,"price":json.dumps(price),"path":path, "username":username,'is_myself':json.dumps(is_myself)})
     response.set_cookie('cookie_pid',p_id)
     return response
+
 
 def userlogout(request):
     response = HttpResponseRedirect('/myapp/login/')
