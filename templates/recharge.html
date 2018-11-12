@@ -61,6 +61,7 @@
 </div>
 <form class="form-horizontal" action="../recharge/" method="post">
     {% csrf_token %}
+    <p> 账户余额：{{ balance }} 豆豆</p>
     <label></label><br/>
     <label>账户名 <input type="text" name="user_id" class="form-control col-sm-2"/> </label><br/><br/>
     <label><input name="query" type="radio" value=50 required/>50豆豆/10元 </label>
@@ -70,20 +71,5 @@
     <br/>
     <button onclick="myFunction()" type="submit" class="btn btn-info">充值</button>
 </form>
-<script>
-    function myFunction() {
-        var x;
-        var condition =
-        {{ condition|safe }}
-        if (condition == 1)
-            var r = confirm("充值成功!");
-        if (r == true) {
-            x = "你按下了\"确定\"按钮!";
-        }
-        else {
-            x = "你按下了\"取消\"按钮!";
-        }
-    }
-</script>
 </body>
 </html>

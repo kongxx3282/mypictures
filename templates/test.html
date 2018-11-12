@@ -78,29 +78,39 @@
 </body>
 </html>
 <script>
-    function myFunction() {
-        var opt ={{ is_download|safe }};
-        var r;
-        var price ={{ price|safe }};
-        var is_login =
-        {{ is_login|safe }}
-        if (is_login == 1) {
-            if (opt == 0) {
-                r = confirm("确认要下载吗,将花费" + price);
-            }
-            else {
-                r = confirm("您已下载过该图片，一个月内可以免费重复下载")
-            }
-            var pid ={{ p_id|safe }};
-            if (r == true) {
-                window.location.href = '{% url 'myapp:download' %}';
-            }
-            else {
-                window.location.href = '/myapp/test/' + pid;
-            }
+function myFunction(){
+    var opt={{ is_download|safe }};
+    var r;
+    var price={{ price|safe }};
+    var is_login={{ is_login|safe }};
+    var is_myself={{ is_myself|safe }};
+    if(is_myself==0){
+
+    if(is_login==1){
+    if(opt==0){
+        r=confirm("确认要下载吗,将花费"+price);
+    }
+    else{
+        r=confirm("您已下载过该图片，一个月内可以免费重复下载")
+    }
+	var pid={{ p_id|safe }};
+	if (r==true){
+		window.location.href='{% url 'myapp:download' %}';
+	}
+	else{
+		window.location.href='/myapp/test/'+pid;
+	}}
+	else{
+        alert('请先登录');window.location.href='http://127.0.0.1:8000/myapp/login';
+    }
+    }
+    else{
+        if(is_login==1){
+            window.location.href='{% url 'myapp:download' %}';
         }
-        else {
-            alert('请先登录');
-            window.location.href = 'http://127.0.0.1:8000/myapp/login';
+        else{
+            alert('请先登录');window.location.href='http://127.0.0.1:8000/myapp/login';
         }
-    }</script>
+    }
+}</script>
+
