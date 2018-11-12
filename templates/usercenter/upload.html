@@ -69,9 +69,9 @@
                 <fieldset>
                     <input type="file" accept="image/*" id="chooseImage" name="original">
                     <input type="text" placeholder="标题" name="title">
-                    <textarea class="pure-input-1" type="text" placeholder="描述" name="description"></textarea>
+                    <input class="pure-input-1" type="text" placeholder="描述" name="description">
                     <label for="category">分类</label>
-                    <select id="category">
+                    <select id="category" name="category">
                         <option value="animation">动漫</option>
                         <option value="food">美食</option>
                         <option value="scenery">风景</option>
@@ -80,7 +80,7 @@
                     </select>
                     <input type="number" placeholder="定价" name="price"><br>
 
-                    <button class="pure-button" type="submit" value="上传">上传</button>
+                    <input class="pure-button" type="submit" value="上传">
                 </fieldset>
 
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>Show</title>
@@ -44,8 +44,9 @@
                 <li class="pure-menu-item"><a href="/show/people" class="pure-menu-link">人像</a></li>
                 <li class="pure-menu-item"><a href="/show/other" class="pure-menu-link">其它</a></li>
                 {% ifequal username 'login' %}
-                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
-                                                  class="pure-menu-link"> {{ username }} </a></li>
+                    <li class="pure-menu-item">
+                        <a href="/myapp/{{ username }}" class="pure-menu-link"> {{ username }} </a>
+                    </li>
                 {% else %}
                     <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
                     </li>
@@ -67,11 +68,11 @@
 
 <div class="pure-g">
     {% for v in querylist %}
-    <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
-        <img src="{{ v.pic }}" alt="error" width="300" height="300">
-        <p>{{ v.title }}</p>
-    </a>
-{% endfor %}
+        <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
+            <img src="{{ v.pic }}" alt="error" width="300" height="300">
+            <p>{{ v.title }}</p>
+        </a>
+    {% endfor %}
 </div>
 
 
