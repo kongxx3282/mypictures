@@ -1,28 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+          crossorigin="anonymous">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="static/css/layouts/marketing-old-ie.css">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/static/css/layouts/menu.css">
+    <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+
+    <!--<![endif]-->
 </head>
 
 <body>
- <a href="{% url 'home' %}">返回主页</a><br>
-<img src={{ path }}>
-<button onclick="myFunction()">下载</button>
-<button onclick="window.location.href='{% url 'myapp:collect' %}'">收藏</button>
-{% ifequal username 'login' %}
-<label><a href = "http://127.0.0.1:8000/myapp/{{ username }}"> {{ username }} </a></label>
-{% else %}
-<label><a href = "{% url 'index' %}"> {{ username }} </a></label>
-{% endifequal %}
-<label><a href = "http://127.0.0.1:8000/myapp/logout"> 注销 </a></label><br/>
+<div class="header">
+    <div class="custom-menu-wrapper pure-menu-fixed">
+        <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
+            <a href="#" class="pure-menu-heading custom-menu-brand">MyPics</a>
+            <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+        </div>
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            {#            <div class="custom-menu-screen"></div>#}
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="/home" class="pure-menu-link">首页</a></li>
+                <li class="pure-menu-item"><a href="/show/animation" class="pure-menu-link">动漫</a></li>
+                <li class="pure-menu-item"><a href="/show/food" class="pure-menu-link">美食</a></li>
+                <li class="pure-menu-item"><a href="/show/scenery" class="pure-menu-link">风景</a></li>
+                <li class="pure-menu-item"><a href="/show/people" class="pure-menu-link">人像</a></li>
+                <li class="pure-menu-item"><a href="/show/other" class="pure-menu-link">其它</a></li>
+                {% ifequal username 'login' %}
+                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
+                                                  class="pure-menu-link"> {{ username }} </a></li>
+                {% else %}
+                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
+                    </li>
+                {% endifequal %}
+                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+        <h1>{{ title }}</h1>
+    </div>
+</div>
+<div class="pure-g">
+    <div class="pure-u-3-5"><img class="pure-img-responsive" src={{ path }}></div>
+    <div class="pure-u-2-5">
+        <button onclick="myFunction()">下载</button>
+        <button onclick="window.location.href='{% url 'myapp:collect' %}'">收藏</button>
+        <p>图片名：{{ title }}</p>
+        <p>作者: {{ author }}</p>
+        <p>图片描述: {{ description }}</p>
+        <p>收藏数：{{ favourite }}</p>
+        <p>价格：{{ price }}</p>
+        <p>标签：{{ category }}</p>
+    </div>
 
-<p>图片名：{{ title }}</p>
-<p>作者: {{ author }}</p>
-<p>图片描述: {{ description }}</p>
-<p>收藏数：{{ favourite }}</p>
-<p>价格：{{ price }}</p>
-<p>标签：{{ category }}</p>
+</div>
+
 
 </body>
 </html>
@@ -31,7 +82,10 @@ function myFunction(){
     var opt={{ is_download|safe }};
     var r;
     var price={{ price|safe }};
-    var is_login={{ is_login|safe }}
+    var is_login={{ is_login|safe }};
+    var is_myself={{ is_myself|safe }};
+    if(is_myself==0){
+
     if(is_login==1){
     if(opt==0){
         r=confirm("确认要下载吗,将花费"+price);
@@ -49,4 +103,14 @@ function myFunction(){
 	else{
         alert('请先登录');window.location.href='http://127.0.0.1:8000/myapp/login';
     }
+    }
+    else{
+        if(is_login==1){
+            window.location.href='{% url 'myapp:download' %}';
+        }
+        else{
+            alert('请先登录');window.location.href='http://127.0.0.1:8000/myapp/login';
+        }
+    }
 }</script>
+

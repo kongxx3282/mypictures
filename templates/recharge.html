@@ -3,41 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <title>Recharge</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+          crossorigin="anonymous">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="static/css/layouts/marketing-old-ie.css">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/static/css/layouts/menu.css">
+    <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+
+    <!--<![endif]-->
 </head>
 <body>
-<div>
-    <ul>
-        <a href="{% url 'home' %}"><li>返回主页</li></a>
-        <a href="{% url 'index' %}"><li>作品管理</li></a>
-        <a href="{% url 'upload' %}"><li>作品上传</li></a>
-        <a href="{% url 'myfavorite' %}"><li>我的收藏</li></a>
-        <a href="{% url 'recharge' %}"><li>充值中心</li></a>
-    </ul>
+<div class="header">
+    <div class="custom-menu-wrapper pure-menu-fixed">
+        <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
+            <a href="#" class="pure-menu-heading custom-menu-brand">个人中心</a>
+            <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+        </div>
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            {#            <div class="custom-menu-screen"></div>#}
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">管理</a></li>
+                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link">上传</a></li>
+                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link">收藏</a></li>
+                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link">充值</a></li>
+                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link">返回主站</a></li>
+                {% ifequal username 'login' %}
+                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
+                                                  class="pure-menu-link"> {{ username }} </a></li>
+                {% else %}
+                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
+                    </li>
+                {% endifequal %}
+                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+        <h1>
+            充值
+        </h1>
+    </div>
 </div>
-<h2><b>豆豆充值</b></h2>
- <form class="form-horizontal" action="../recharge/" method="post">
-     {% csrf_token %}
-        <label></label><br />
-							 <label>账户名 <input type="text" name = "user_id" class="form-control col-sm-2"/> </label><br /><br/>
-							 <label><input name="query" type="radio" value=50 required />50豆豆/10元 </label>
-							 <label><input name="query" type="radio" value=100 required />100豆豆/20元 </label>
-							 <label><input name="query" type="radio" value=200 required />200豆豆/38元 </label>
-							 <label><input name="query" type="radio" value=300 required />300豆豆/55元 </label>
-     <br /><button onclick="myFunction()" type="submit" class="btn btn-info">充值</button>
- </form>
-<script>
-function myFunction(){
-	var x;
-	var condition = {{ condition|safe }}
-	if(condition == 1)
-	    var r=confirm("充值成功!");
-	if (r==true){
-		x="你按下了\"确定\"按钮!";
-	}
-	else{
-		x="你按下了\"取消\"按钮!";
-	}
-}
-</script>
+<form class="form-horizontal" action="../recharge/" method="post">
+    {% csrf_token %}
+    <p> 账户余额：{{ balance }} 豆豆</p>
+    <label></label><br/>
+    <label>账户名 <input type="text" name="user_id" class="form-control col-sm-2"/> </label><br/><br/>
+    <label><input name="query" type="radio" value=50 required/>50豆豆/10元 </label>
+    <label><input name="query" type="radio" value=100 required/>100豆豆/20元 </label>
+    <label><input name="query" type="radio" value=200 required/>200豆豆/38元 </label>
+    <label><input name="query" type="radio" value=300 required/>300豆豆/55元 </label>
+    <br/>
+    <button onclick="myFunction()" type="submit" class="btn btn-info">充值</button>
+</form>
 </body>
 </html>

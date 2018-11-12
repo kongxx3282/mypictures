@@ -1,53 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>Home Page</title>
+    <title>首页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+          crossorigin="anonymous">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="static/css/layouts/marketing-old-ie.css">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/static/css/layouts/menu.css">
+    <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <!--<![endif]-->
 </head>
 <body>
-<h2><b>首页</b></h2>
-<label><a href = "http://127.0.0.1:8000/show/animation"> 动漫 </a></label>
-<label><a href = "http://127.0.0.1:8000/show/food"> 美食 </a></label>
-<label><a href = "http://127.0.0.1:8000/show/scenery"> 风景 </a></label>
-<label><a href = "http://127.0.0.1:8000/show/people"> 人像 </a></label>
-<label><a href = "http://127.0.0.1:8000/show/other"> 其它 </a></label><br/>
-{% ifequal username 'login' %}
-<label><a href = "http://127.0.0.1:8000/myapp/{{ username }}"> {{ username }} </a></label>
-{% else %}
-<label><a href = "{% url 'index' %}"> {{ username }} </a></label>
-{% endifequal %}
-<label><a href = "http://127.0.0.1:8000/myapp/logout"> 注销 </a></label><br/>
+<div class="header">
+    <div class="custom-menu-wrapper pure-menu-fixed">
+        <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
+            <a href="#" class="pure-menu-heading custom-menu-brand">MyPics</a>
+            <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+        </div>
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            {#            <div class="custom-menu-screen"></div>#}
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="/home" class="pure-menu-link">首页</a></li>
+                <li class="pure-menu-item"><a href="/show/animation" class="pure-menu-link">动漫</a></li>
+                <li class="pure-menu-item"><a href="/show/food" class="pure-menu-link">美食</a></li>
+                <li class="pure-menu-item"><a href="/show/scenery" class="pure-menu-link">风景</a></li>
+                <li class="pure-menu-item"><a href="/show/people" class="pure-menu-link">人像</a></li>
+                <li class="pure-menu-item"><a href="/show/other" class="pure-menu-link">其它</a></li>
+                {% ifequal username 'login' %}
+                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
+                                                  class="pure-menu-link"> {{ username }} </a></li>
+                {% else %}
+                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
+                    </li>
+                {% endifequal %}
+                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{#<h2><b>首页</b></h2>#}
+{#<label><a href = "http://127.0.0.1:8000/show/animation"> 动漫 </a></label>#}
+{#<label><a href = "http://127.0.0.1:8000/show/food"> 美食 </a></label>#}
+{#<label><a href = "http://127.0.0.1:8000/show/scenery"> 风景 </a></label>#}
+{#<label><a href = "http://127.0.0.1:8000/show/people"> 人像 </a></label>#}
+{#<label><a href = "http://127.0.0.1:8000/show/other"> 其它 </a></label><br/>#}
+{#{% ifequal username 'login' %}#}
+{#    <label><a href="http://127.0.0.1:8000/myapp/{{ username }}"> {{ username }} </a></label>#}
+{#{% else %}#}
+{#    <label><a href="{% url 'index' %}"> {{ username }} </a></label>#}
+{#{% endifequal %}#}
+{#<label><a href="http://127.0.0.1:8000/myapp/logout"> 注销 </a></label><br/>#}
 
-<form class="form-horizontal" action="../home/" method="post">
-     {% csrf_token %}
-        <label></label><br />
-		<input type="text" name = "content" class="form-control col-sm-2"/> <br /><br/>
-     <br /><button type="submit" class="btn btn-info">搜索</button>
- </form>
 
-<h3><b>最新</b></h3>
-        {% for v in newlist %}
-        <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="{{v.pic}}" alt="error" width="300" height="300">
-        <p>{{ v.title }}</p>
-            </a>
-        {% endfor %}
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">My Pictures</h1>
+        <form class="pure-form" action="../home/" method="post">
+            {% csrf_token %}
+            <label></label><br/>
+            <input type="text" name="content" class="form-control col-sm-2"/>
+            <button type="submit" class="pure-button pure-button-primary">搜 索</button>
+        </form>
+        {#        <p class="splash-subhead">#}
+        {#        </p>#}
 
-<h3><b>最热</b></h3>
-{% for v in hotlist %}
-        <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="{{v.pic}}" alt="error" width="300" height="300">
-        <p>{{ v.title }}</p>
-            </a>
-        {% endfor %}
+    </div>
+</div>
 
-<h3><b>全部</b></h3>
-        {% for v in alllist %}
-        <a href = "http://127.0.0.1:8000/myapp/test/{{v.id}}">
-        <img src="{{v.pic}}" alt="error" width="300" height="300">
-        <p>{{ v.title }}</p>
-            </a>
-        {% endfor %}
+<div class="content-wrapper">
+    <div class="content">
+        <h3><b>最新</b></h3>
+        <div class="pure-g">
+            {% for v in newlist %}
+                <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
+                    <img src="{{ v.pic }}" alt="error" width="300" height="300">
+                    <p>{{ v.title }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="content">
+        <h3><b>最热</b></h3>
+        <div class="pure-g">
+            {% for v in hotlist %}
+                <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
+                    <img src="{{ v.pic }}" alt="error" width="300" height="300">
+                    <p>{{ v.title }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="content">
+        <h3><b>全部</b></h3>
+        <div class="pure-g">
+            {% for v in alllist %}
+                <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
+                    <img  src="{{ v.pic }}" alt="error" width="300" height="300">
+                    <p>{{ v.title }}</p>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
 
 </body>
+
+<script>
+    (function (window, document) {
+        document.getElementById('toggle').addEventListener('click', function (e) {
+            document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+            document.getElementById('toggle').classList.toggle('x');
+        });
+    })(this, this.document);
+</script>
+
 </html>

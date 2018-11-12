@@ -15,7 +15,10 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your views here.
 def recharge(request):
-    condition = 0
+    user_name = request.COOKIES.get('cookie_username')
+    useri = MyUser.objects.filter(username=user_name)
+    for u in useri:
+        bala = u.balance
     if request.method == 'POST':
         userid = request.POST['user_id']
         username = MyUser.objects.all()
@@ -29,10 +32,11 @@ def recharge(request):
         for u in user:
            bal = u.balance
         MyUser.objects.filter(username=userid).update(balance=bal+int(charge))
-        condition = 1
+        for u in useri:
+            bala = u.balance
 
-        return render(request, 'recharge.html',{"condition":json.dumps(condition)})
-    return render(request, 'recharge.html', {"condition":json.dumps(condition)})
+            return HttpResponse("<script >alert('充值成功！');window.location.href='/recharge';</script>")
+    return render(request, 'recharge.html', {"balance":bala, 'username':user_name})
 
 
 def home(request):
@@ -48,12 +52,12 @@ def home(request):
         newid.append(id)
         alllist.append({'pic': v.watermark_picture.url, 'id': v.version_id, 'title':v.picture.title})
 
-    newversions = Version.objects.filter(is_newest=True).order_by('-upload_time')[ :10]   #按照时间降序排列取前10个
+    newversions = Version.objects.filter(is_newest=True).order_by('-upload_time')[ :6]   #按照时间降序排列取前10个
     newlist = []
     for n in newversions:
         newlist.append({'pic':n.watermark_picture.url,'id':n.version_id, 'title':n.picture.title})
 
-    hotpicture = Picture.objects.filter(picture_id__in=newid).order_by('-favorite_number')[ :10]   #按照收藏数降序排列取前10个
+    hotpicture = Picture.objects.filter(picture_id__in=newid).order_by('-favorite_number')[ :6]   #按照收藏数降序排列取前10个
     hlist = []
     for p in hotpicture:
         id = p.picture_id
@@ -82,6 +86,9 @@ def home(request):
 
 
 def show(request, cate):
+    user_name = request.COOKIES.get('cookie_username')
+    if user_name == None:
+        user_name = "login"
     newid = []
     allversions = Version.objects.filter(is_newest=True)  # 获取最新版本
     for v in allversions:
@@ -110,7 +117,7 @@ def show(request, cate):
             query.append({'pic': q.watermark_picture.url, 'id': q.version_id, 'title':q.picture.title})
         return render(request, 'show.html', {'querylist': query,'cate':cate})
 
-    return render(request, 'show.html', {'querylist': querylist,'cate':cate})
+    return render(request, 'show.html', {'querylist': querylist,'cate':cate, 'username':user_name})
 
 
 def getNewCo(img,watermark):
@@ -180,11 +187,15 @@ def test(request,p_id):
         list.append(i)
     image_id=list[0].picture
     path=list[0].watermark_picture.url
-    print(path)
     image=Picture.objects.filter(picture_id=image_id.picture_id)
     image_list=[]
     for k in image:
         image_list.append(k)
+    is_myself=0
+
+    if image_list[0].author.user_id==int(uid):
+        is_myself=1
+
     author=image_list[0].author
     description=image_list[0].description
     favourite=image_list[0].favorite_number
@@ -193,11 +204,9 @@ def test(request,p_id):
     category=image_list[0].category
     response=render(request,"test.html",{"p_id":json.dumps(p_id),"title":title,"category":category,"is_login":json.dumps(is_login),
                                          "is_download":json.dumps(is_download),"author":author,"description":description,
-                                         "favourite":favourite,"price":json.dumps(price),"path":path, "username":username})
+                                         "favourite":favourite,"price":json.dumps(price),"path":path, "username":username,'is_myself':json.dumps(is_myself)})
     response.set_cookie('cookie_pid',p_id)
     return response
-
-
 
 def userlogout(request):
     response = HttpResponseRedirect('/myapp/login/')
@@ -225,6 +234,11 @@ def download_file(request):
     for k in pic:
         picture=Picture.objects.filter(picture_id=k.picture.picture_id)
         list_p.append(picture)
+    author_list=[]
+    for o in list_p[0]:
+        author=MyUser.objects.filter(user_id=o.author.user_id)
+        author_list.append(author)
+
     list_price=[]
     list_name=[]
     for i in list_p[0]:
@@ -246,22 +260,41 @@ def download_file(request):
                 file = open(list[0][1:], 'rb')
                 response = StreamingHttpResponse(file)
                 response['Content-Type'] = 'application/octet-stream'
-                strg='attachment;filename="'+str(list_name[0])+'.png"'
+                strg='attachment;filename="'+str(list_name[0])+'.png'
                 response['Content-Disposition'] = strg
                 return response
+    for i in author_list[0]:
+        for j in user:
+            print(i.user_id)
+            print(j.user_id)
+            if i.user_id==j.user_id:
+                print("enter")
+                file = open(list[0][1:], 'rb')
+                response = StreamingHttpResponse(file)
+                response['Content-Type'] = 'application/octet-stream'
+                strg = 'attachment;filename="' + str(list_name[0]) + '.png'
+                response['Content-Disposition'] = strg
+                return response
+
+
     for i in user:
         for j in pic:
-            if i.balance>0:
-                balance=i.balance-list_price[0]
-                MyUser.objects.filter(user_id=i.user_id).update(balance=balance)
-            else:
-                return HttpResponse("<script >alert('余额不足请充值');window.location.href='/myapp/test/" + str(pid) + "';</script>")
-            Download.objects.create(version=j, user=i, download_time=time)
+            for k in author_list[0]:
+                if i.balance>0 :
+                    balance=i.balance-list_price[0]
+                    balance2=k.balance+list_price[0]
+                    MyUser.objects.filter(user_id=i.user_id).update(balance=balance)
+                    MyUser.objects.filter(user_id=k.user_id).update(balance=balance2)
+
+                else:
+                    return HttpResponse("<script >alert('余额不足请充值');window.location.href='/myapp/test/" + str(pid) + "';</script>")
+
+                Download.objects.create(version=j, user=i, download_time=time)
 
     file = open(list[0][1:], 'rb')
     response = StreamingHttpResponse(file)
     response['Content-Type'] = 'application/octet-stream'
-    strg = 'attachment;filename="' + str(list_name[0]) + '.png"'
+    strg = 'attachment;filename="' + str(list_name[0]) + '.png'
     response['Content-Disposition'] = strg
     return response
 
@@ -397,11 +430,12 @@ def usercenter_index(request):
             if ver.is_newest:
                 ver_list.append(ver)
                 break
-    return render(request, 'usercenter/usercenter.html', {'user_id': user_id, 'user_name': user_name, 'ver_list': ver_list})
+    return render(request, 'usercenter/usercenter.html', {'user_id': user_id, 'username': user_name, 'ver_list': ver_list})
 
 
 def upload(request):
-    return render(request, 'usercenter/upload.html')
+    user_name = request.COOKIES.get('cookie_username')
+    return render(request, 'usercenter/upload.html',{'username':user_name})
 
 
 def handle_upload(request):
@@ -433,6 +467,8 @@ def handle_upload(request):
 
 
 def edit(request, picture_id):
+    user_name = request.COOKIES.get('cookie_username')
+
 
     if request.method == "POST":
         edit_pic = Picture.objects.get(pk=picture_id)
@@ -462,7 +498,7 @@ def edit(request, picture_id):
     for ver in versions:
         if ver.is_newest:
             newest_ver = ver
-    return render(request, 'usercenter/edit.html', {'picture': picture, 'newest_ver': newest_ver, 'versions': versions})
+    return render(request, 'usercenter/edit.html', {'picture': picture, 'newest_ver': newest_ver, 'versions': versions,'username':user_name})
 
 
 def set_ver_version(request, version_id):
@@ -477,6 +513,7 @@ def set_ver_version(request, version_id):
 
 
 def myfavorite(request):
+    user_name = request.COOKIES.get('cookie_username')
     user_id = request.COOKIES.get('cookie_userid')
     user = MyUser.objects.get(user_id=user_id)
     favorites = Favorite.objects.filter(user=user)
@@ -490,7 +527,7 @@ def myfavorite(request):
             if ver.is_newest:
                 ver_list.append(ver)
                 break
-    return render(request, 'usercenter/myfavorite.html', {'ver_list': ver_list})
+    return render(request, 'usercenter/myfavorite.html', {'ver_list': ver_list, 'username':user_name})
 
 
 def addmarker(original_picture):

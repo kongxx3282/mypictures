@@ -1,51 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
+          crossorigin="anonymous">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+
+    <!--[if lte IE 8]>
+            <link rel="stylesheet" href="static/css/layouts/marketing-old-ie.css">
+        <![endif]-->
+    <!--[if gt IE 8]><!-->
+    <link rel="stylesheet" href="/static/css/layouts/menu.css">
+    <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+
+    <!--<![endif]-->
 </head>
 <body>
+<div class="header">
+    <div class="custom-menu-wrapper pure-menu-fixed">
+        <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
+            <a href="#" class="pure-menu-heading custom-menu-brand">MyPics</a>
+            <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
+        </div>
+        <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
+             id="tuckedMenu">
+            {#            <div class="custom-menu-screen"></div>#}
+            <ul class="pure-menu-list">
+                <li class="pure-menu-item"><a href="/home" class="pure-menu-link">首页</a></li>
+                <li class="pure-menu-item"><a href="/show/animation" class="pure-menu-link">动漫</a></li>
+                <li class="pure-menu-item"><a href="/show/food" class="pure-menu-link">美食</a></li>
+                <li class="pure-menu-item"><a href="/show/scenery" class="pure-menu-link">风景</a></li>
+                <li class="pure-menu-item"><a href="/show/people" class="pure-menu-link">人像</a></li>
+                <li class="pure-menu-item"><a href="/show/other" class="pure-menu-link">其它</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="banner">
+        <h1>登陆</h1>
+    </div>
+</div>
 
-{% if errors %}
 
+<div class="login pure-g">
+    <div class="pure-u-8-24"></div>
+    <div class="pure-u-8-24">
+        {% if errors %}
 
             {% for error in errors %}
-             <p style="color: red;">
-                {{error}}
-             </p>
-              {% endfor %}
+                <p style="color: red;">
+                    {{ error }}
+                </p>
+            {% endfor %}
 
-    {% endif %}
+        {% endif %}
 
-    <form action="" method="post">{% csrf_token %}
+        <form class="pure-form pure-form-stacked" action="" method="post">{% csrf_token %}
+            <fieldset>
+                <input type='text' placeholder="用户名" name='account'>
+                <input type='password' placeholder="密码" name='password'>
+                <button type='submit' class="pure-button pure-button-primary" placeholder="Login" value="登录">登录</button>
+            </fieldset>
+        </form>
+        <a href="/myapp/register">
+            <button class="pure-button pure-button-primary">注册</button>
+        </a>
+    </div>
+    <div class="pure-u-8-24"></div>
+</div>
+</div>
 
-        <tr>
-            <td>
-                <label >用户名:</label>
-            </td>
-            <td>
-                <input type = 'text' placeholder="输入用户名" name = 'account'>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label >密码:</label>
-            </td>
-            <td>
-              <input type = 'password' placeholder="输入密码" name = 'password'>
-            </td>
-        </tr>
-
-          <tr>
-
-              <td>
-                   <input type = 'submit' placeholder="Login" value="登录">
-              </td>
-          </tr>
-    </form>
-
-<a href="/myapp/register"><button>注册</button></a>
 
 </body>
+<script>
+    (function (window, document) {
+        document.getElementById('toggle').addEventListener('click', function (e) {
+            document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+            document.getElementById('toggle').classList.toggle('x');
+        });
+    })(this, this.document);
+</script>
 
 </html>
