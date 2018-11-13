@@ -80,13 +80,16 @@
 
 
     </div>
-    <div class="pure-g">
-        {% for v in querylist %}
-            <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
-                <img src="{{ v.pic }}" alt="error">
-                <aside class="photo-box-caption">{{ v.title }}</aside>
-            </a>
-        {% endfor %}
+    <div class="main-content">
+        <h3>类别： {{ cate }}</h3>
+        <div class="pure-g">
+            {% for v in querylist %}
+                <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
+                    <img src="{{ v.pic }}" alt="error">
+                    <aside class="photo-box-caption">{{ v.title }}</aside>
+                </a>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
