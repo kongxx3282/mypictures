@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户中心 - 作品编辑</title>
+    <title>个人中心 - 编辑作品</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load staticfiles %}
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/static/css/layouts/menu.css">
     <link rel="stylesheet" href="/static/css/layouts/header.css">
     <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+    <link rel="stylesheet" href="/static/css/layouts/gallery.css">
 
     <!--<![endif]-->
     <script type="text/javascript">
@@ -65,72 +66,109 @@
 </head>
 <body>
 <div class="header">
-    <div class="custom-menu-wrapper pure-menu-fixed">
+    <div class="custom-menu-wrapper pure-menu-fixed pic-menu">
         <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
-            <a href="#" class="pure-menu-heading custom-menu-brand">个人中心</a>
+            <a href="{% url 'index' %}" class="pure-menu-heading custom-menu-brand">个人中心</a>
             <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
         </div>
         <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
              id="tuckedMenu">
             {#            <div class="custom-menu-screen"></div>#}
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">管理</a></li>
-                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link">上传</a></li>
-                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link">收藏</a></li>
-                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link">充值</a></li>
-                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link">返回主站</a></li>
-                {% ifequal username 'login' %}
-                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
-                                                  class="pure-menu-link"> {{ username }} </a></li>
-                {% else %}
-                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
-                    </li>
-                {% endifequal %}
-                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            <ul class="pure-menu-list pic-menu-heading">
+                {#                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link pic-menu-link">管理</a></li>#}
+                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link pic-menu-link">上传</a></li>
+                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link pic-menu-link">收藏</a>
+                </li>
+                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link pic-menu-link">充值</a>
+                </li>
+                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link pic-menu-link">返回主站</a></li>
+                <li class="pure-menu-item "><a href="/myapp/logout" class="pure-menu-link pic-menu-link"> 注销 </a></li>
             </ul>
         </div>
     </div>
-    <div class="banner">
-        <h1>
-            编辑作品
-        </h1>
+</div>
+<div class="banner-container pure-g">
+    <div class="banner pure-u-1">
+        <h1>{{ picture.title }}</h1>
     </div>
 </div>
-<div>最新版本</div>
-<img src="{{ newest_ver.original_picture.url }}">
-<div id="PictureInfo">
-    <p>标题： {{ picture.title }}</p>
-    <p>描述： {{ picture.description }}</p>
-    <p>分类： {{ picture.category }}</p>
-    <p>价值： {{ picture.price }}</p>
-</div>
-<div id="EditInfo" style="display: none">
-    <form method="post" name="edit_info" id="editForm" enctype="multipart/form-data">{% csrf_token %}
-        <p>标题：</p><input type="text" name="title" value="{{ picture.title }}">
-        <p>描述：</p><input type="text" name="description" value="{{ picture.description }}">
-        <p>分类：</p>
-        <select name="category" value="{{ picture.category }}">
-            <option value="animation">动漫</option>
-            <option value="food">美食</option>
-            <option value="scenery">风景</option>
-            <option value="people">人像</option>
-            <option value="other">其它</option>
-        </select>
-        <p>价值：</p><input type="number" name="price" value="{{ picture.price }}">
-        <p>上传新版本：</p><input type="file" accept="image/*" name="new_version">
-    </form>
-</div>
-<button id="startEdit" onclick="editPictureInfo()">编辑</button>
-<br>
-<button id="confirmEdit" style="display: none" onclick="editSubmit()">确定</button>
-<br>
-<button id="cancel_btn" style="display: none" onclick="cancel()">取消</button>
-<br>
+<div class="main-wrapper">
+    <div class="work-wrapper">
+        <h3>最新版本</h3>
+        <div class="pure-g">
+            <div class="pure-u-1 pure-u-lg-3-5">
+                <div class="work-content">
+                    <img class="pure-img-responsive work-img" src="{{ newest_ver.original_picture.url }}">
+                </div>
+            </div>
+            <div class="pure-u-1 pure-u-lg-2-5">
+                <div class="work-content">
+                    <div id="PictureInfo">
+                        <h4>{{ picture.title }}</h4>
+                        <p>描述： {{ picture.description }}</p>
+                        <p>分类： {{ picture.category }}</p>
+                        <p>价值： {{ picture.price }}</p>
+                    </div>
+                    <div id="EditInfo" style="display: none">
+                        <form class="pure-form pure-form-stacked" method="post" name="edit_info" id="editForm"
+                              enctype="multipart/form-data">{% csrf_token %}
+                            <fieldset>
 
-<div>历史版本</div>
-{% for ver in versions %}
-    <img src="{{ ver.original_picture.url }}">
-    <button onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">设为最新</button>
-{% endfor %}
+
+                                <label for="title">标题</label>
+                                <input type="text" name="title" value="{{ picture.title }}">
+                                <label for="description">描述</label>
+                                <textarea type="text" name="description" value="{{ picture.description }}"></textarea>
+                                <label for="category">分类</label>
+                                <select name="category" value="{{ picture.category }}">
+                                    <option value="animation">动漫</option>
+                                    <option value="food">美食</option>
+                                    <option value="scenery">风景</option>
+                                    <option value="people">人像</option>
+                                    <option value="other">其它</option>
+                                </select>
+                                <label for="price">定价</label>
+                                <input type="number" name="price" value="{{ picture.price }}">
+                                <input type="file" accept="image/*" name="new_version">
+                            </fieldset>
+                        </form>
+                    </div>
+                    <button class="pure-button pure-button-primary pic-button" id="startEdit"
+                            onclick="editPictureInfo()">编辑
+                    </button>
+                    <button class="pure-button pure-button-primary pic-button" id="confirmEdit" style="display: none"
+                            onclick="editSubmit()">确定
+                    </button>
+                    <button class="pure-button pure-button-primary pic-button" id="cancel_btn" style="display: none"
+                            onclick="cancel()">取消
+                    </button>
+                    <br>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="work-wrapper">
+        <h3>历史版本</h3>
+        <div class="pure-g">
+            {% for ver in versions %}
+                <div class="pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 pure-g">
+                <div class="photo-box pure-u-1">
+                    <img src="{{ ver.original_picture.url }}">
+                </div>
+                <div class="pure-u-1 usr-button">
+                    <button class="pure-button pure-button-primary pic-button"
+                            onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">设为最新
+                    </button>
+                </div>
+
+            {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
 </body>
 </html>
