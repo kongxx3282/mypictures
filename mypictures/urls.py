@@ -39,6 +39,9 @@ urlpatterns = [
     # usercenter/recharge
     # url(r'recharge/$', views.recharge, name='recharge'),
     url(r'^usercenter/setnewversion/(.+)/$', views.set_ver_version, name='setnewversion'),
+    url(r'^usercenter/deletepicture/(.+)/$', views.delete_picture, name='deletepicture'),
+    url(r'^usercenter/cancelfavorite/(.+)/$', views.cancel_favorite, name='cancelfavorite'),
     url(r'^usercenter/handleupload/$', views.handle_upload, name='handleupload'),
+
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
