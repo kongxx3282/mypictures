@@ -22,6 +22,9 @@
     <!--[if gt IE 8]><!-->
     <link rel="stylesheet" href="/static/css/layouts/menu.css">
     <link rel="stylesheet" href="/static/css/layouts/header.css">
+    <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+    <link rel="stylesheet" href="/static/css/layouts/gallery.css">
+
     <!--<![endif]-->
 </head>
 <body>
@@ -55,41 +58,38 @@
 </div>
 
 
-
 <div class="splash-container">
     <div class="splash">
         <h1 class="splash-head">My Pictures</h1>
         <form class="pure-form" action="../home/" method="post">
             {% csrf_token %}
-            <label></label><br/>
-            <input type="text" name="content" class="form-control col-sm-2"/>
-            <button type="submit" class="pure-button pure-button-primary">搜 索</button>
+            <label></label>
+            <input type="text" name="content" class="pic-search"/>
+            <button type="submit" class="pure-button pure-button-primary pic-button">搜 索</button>
         </form>
-        {#        <p class="splash-subhead">#}
-        {#        </p>#}
 
     </div>
 </div>
 
 <div class="content-wrapper">
     <div class="content">
-        <h3><b>最新</b></h3>
+        <h2><b>最新</b></h2>
         <div class="pure-g">
             {% for v in newlist %}
-                <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
-                    <img src="{{ v.pic }}" alt="error" width="300" height="300">
-                    <p>{{ v.title }}</p>
+                <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
+                    <img  src="{{ v.pic }}" alt="error">
+                    <aside class="photo-box-caption">{{ v.title }}</aside>
                 </a>
             {% endfor %}
         </div>
     </div>
 
     <div class="content">
-        <h3><b>最热</b></h3>
+        <h2><b>最热</b></h2>
         <div class="pure-g">
             {% for v in hotlist %}
-                <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
-                    <img src="{{ v.pic }}" alt="error" width="300" height="300">
+                <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
+                    <img  src="{{ v.pic }}" alt="error">
                     <p>{{ v.title }}</p>
                 </a>
             {% endfor %}
@@ -97,11 +97,11 @@
     </div>
 
     <div class="content">
-        <h3><b>全部</b></h3>
+        <h2><b>全部</b></h2>
         <div class="pure-g">
             {% for v in alllist %}
-                <a class="pure-u-4-24" href="/myapp/test/{{ v.id }}">
-                    <img  src="{{ v.pic }}" alt="error" width="300" height="300">
+                <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
+                    <img src="{{ v.pic }}" alt="error" >
                     <p>{{ v.title }}</p>
                 </a>
             {% endfor %}

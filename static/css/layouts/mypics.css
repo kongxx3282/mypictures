@@ -1,9 +1,60 @@
 .banner {
     text-align: center;
 }
-.login{
+
+.login {
     text-align: center;
 }
-.register{
+
+.register {
     text-align: center;
 }
+
+.content {
+    /*margin: 1em;*/
+}
+
+.content-wrapper{
+    padding-left: 2em;
+    padding-right: 2em;
+    background-color:#f5f5f5;
+}
+
+.splash-container {
+    background-image: url("/static/images/bg.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 1;
+}
+
+.home-menu {
+    /*background-color: #fb7299;*/
+    background-color: hsla(0, 0%, 0%, 0);
+    box-shadow: none;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}
+
+.home-menu .pure-menu-heading {
+    color: #fb7299;
+    font-weight: bolder;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+.custom-menu-wrapper {
+    background-color: hsla(0, 0%, 100%, .4);
+    /*padding-right: 2em;*/
+    /*padding-left: 2em;*/
+
+}
+
+.pic-search:focus {
+    border-color: #fb7299!important;
+}
+
+.pic-button{
+    background-color:#fb7299;
+}
+
+
