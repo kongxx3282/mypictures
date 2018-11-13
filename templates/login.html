@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>登录</title>
+    <title>注册</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load staticfiles %}
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
@@ -23,12 +23,13 @@
     <link rel="stylesheet" href="/static/css/layouts/menu.css">
     <link rel="stylesheet" href="/static/css/layouts/header.css">
     <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+    <link rel="stylesheet" href="/static/css/layouts/gallery.css">
 
     <!--<![endif]-->
 </head>
 <body>
 <div class="header">
-    <div class="custom-menu-wrapper pure-menu-fixed">
+    <div class="custom-menu-wrapper pure-menu-fixed pic-menu">
         <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
             <a href="#" class="pure-menu-heading custom-menu-brand">MyPics</a>
             <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
@@ -36,52 +37,57 @@
         <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
              id="tuckedMenu">
             {#            <div class="custom-menu-screen"></div>#}
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="/home" class="pure-menu-link">首页</a></li>
-                <li class="pure-menu-item"><a href="/show/animation" class="pure-menu-link">动漫</a></li>
-                <li class="pure-menu-item"><a href="/show/food" class="pure-menu-link">美食</a></li>
-                <li class="pure-menu-item"><a href="/show/scenery" class="pure-menu-link">风景</a></li>
-                <li class="pure-menu-item"><a href="/show/people" class="pure-menu-link">人像</a></li>
-                <li class="pure-menu-item"><a href="/show/other" class="pure-menu-link">其它</a></li>
+            <ul class="pure-menu-list pic-menu-heading">
+                <li class="pure-menu-item "><a href="/home" class="pure-menu-link pic-menu-link">首页</a></li>
+                <li class="pure-menu-item "><a href="/show/animation" class="pure-menu-link pic-menu-link">动漫</a></li>
+                <li class="pure-menu-item"><a href="/show/food" class="pure-menu-link pic-menu-link">美食</a></li>
+                <li class="pure-menu-item "><a href="/show/scenery" class="pure-menu-link pic-menu-link">风景</a></li>
+                <li class="pure-menu-item "><a href="/show/people" class="pure-menu-link pic-menu-link">人像</a></li>
+                <li class="pure-menu-item "><a href="/show/other" class="pure-menu-link pic-menu-link">其它</a></li>
             </ul>
         </div>
     </div>
-    <div class="banner">
-        <h1>登陆</h1>
+</div>
+<div class="banner-container pure-g">
+    <div class="banner pure-u-1">
+        <h1>登录</h1>
     </div>
 </div>
 
+<div class="main-wrapper">
+    <div class="login pure-g">
+        <div class="pure-u-8-24"></div>
+        <div class="pure-u-8-24">
+            {% if errors %}
 
-<div class="login pure-g">
-    <div class="pure-u-8-24"></div>
-    <div class="pure-u-8-24">
-        {% if errors %}
+                {% for error in errors %}
+                    <p style="color: red;">
+                        {{ error }}
+                    </p>
+                {% endfor %}
 
-            {% for error in errors %}
-                <p style="color: red;">
-                    {{ error }}
-                </p>
-            {% endfor %}
+            {% endif %}
 
-        {% endif %}
-
-        <form class="pure-form pure-form-stacked" action="" method="post">{% csrf_token %}
-            <fieldset>
-                <input type='text' placeholder="用户名" name='account'>
-                <input type='password' placeholder="密码" name='password'>
-                <button type='submit' class="pure-button pure-button-primary" placeholder="Login" value="登录">登录</button>
-            </fieldset>
-        </form>
-        <a href="/myapp/register">
-            <button class="pure-button pure-button-primary">注册</button>
-        </a>
+            <form class="pure-form pure-form-stacked" action="" method="post">{% csrf_token %}
+                <fieldset>
+                    <input class="pic-input" type='text' placeholder="用户名" name='account'>
+                    <input class="pic-input" type='password' placeholder="密码" name='password'>
+                    <button type='submit' class="pure-button pure-button-primary pic-button" placeholder="Login" value="登录">登录
+                    </button>
+                </fieldset>
+            </form>
+            <a href="/myapp/register">
+                <button class="pure-button pure-button-primary pic-button">注册</button>
+            </a>
+        </div>
+        <div class="pure-u-8-24"></div>
     </div>
-    <div class="pure-u-8-24"></div>
-</div>
 </div>
 
 
 </body>
+
+
 <script>
     (function (window, document) {
         document.getElementById('toggle').addEventListener('click', function (e) {
@@ -90,5 +96,4 @@
         });
     })(this, this.document);
 </script>
-
 </html>

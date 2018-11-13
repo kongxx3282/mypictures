@@ -20,10 +20,17 @@
     background-color:#f5f5f5;
 }
 
+.main-wrapper{
+    margin-top: 2em;
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
 .splash-container {
     background-image: url("/static/images/bg.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
     opacity: 1;
 }
 
@@ -44,12 +51,13 @@
 
 .custom-menu-wrapper {
     background-color: hsla(0, 0%, 100%, .4);
+    margin: 0 0 0 0;
     /*padding-right: 2em;*/
     /*padding-left: 2em;*/
 
 }
 
-.pic-search:focus {
+.pic-input:focus {
     border-color: #fb7299!important;
 }
 
@@ -57,4 +65,26 @@
     background-color:#fb7299;
 }
 
+.pic-box{
+    margin: 1em;
+}
 
+
+.banner-container {
+    background: #f5f5f5;
+
+}
+
+.banner{
+    text-align: center;
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+}
+
+/*.pic-menu{*/
+    /*background-color:#f5f5f5;*/
+/*}*/
+
+.pic-menu-link{
+    color: #222222!important;
+}
