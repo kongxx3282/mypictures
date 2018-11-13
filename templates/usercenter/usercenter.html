@@ -31,7 +31,7 @@
 <div class="header">
     <div class="custom-menu-wrapper pure-menu-fixed pic-menu">
         <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
-            <a href="#" class="pure-menu-heading custom-menu-brand">个人中心</a>
+            <a href="{% url 'index' %}" class="pure-menu-heading custom-menu-brand">个人中心</a>
             <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
         </div>
         <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
@@ -67,7 +67,7 @@
                         <div class="text-box-head">123</div>
                     </a>
                 </div>
-                <div class="pure-u-1 pic-delete">
+                <div class="pure-u-1 usr-button">
                     <button class="pure-button pure-button-primary pic-button"
                             onclick="window.location.href='{% url 'deletepicture' ver.picture.picture_id %}'">删除
                     </button>

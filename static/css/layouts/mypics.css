@@ -80,9 +80,9 @@
     margin-bottom: 2.5em;
 }
 
-/*.pic-menu{*/
-/*background-color:#f5f5f5;*/
-/*}*/
+.pic-menu .custom-menu-toggle .bar {
+    background-color:  #fb7299;
+}
 
 .pic-menu-link {
     color: #222222 !important;
@@ -102,6 +102,7 @@
     width: 100%;
 }
 
-.pic-delete{
+.usr-button {
     padding-top: 0.5em;
+    padding-bottom: 1em;
 }

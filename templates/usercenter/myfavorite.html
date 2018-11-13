@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户中心 - 我的收藏</title>
+    <title>个人中心 - 我的收藏</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load staticfiles %}
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-"
@@ -23,53 +23,62 @@
     <link rel="stylesheet" href="/static/css/layouts/menu.css">
     <link rel="stylesheet" href="/static/css/layouts/header.css">
     <link rel="stylesheet" href="/static/css/layouts/mypics.css">
+    <link rel="stylesheet" href="/static/css/layouts/gallery.css">
 
     <!--<![endif]-->
 </head>
 <body>
 <div class="header">
-    <div class="custom-menu-wrapper pure-menu-fixed">
+    <div class="custom-menu-wrapper pure-menu-fixed pic-menu">
         <div class="home-menu pure-menu-horizontal pure-menu custom-menu custom-menu-top">
-            <a href="#" class="pure-menu-heading custom-menu-brand">个人中心</a>
+            <a href="{% url 'index' %}" class="pure-menu-heading custom-menu-brand">个人中心</a>
             <a href="#" class="custom-menu-toggle" id="toggle"><s class="bar"></s><s class="bar"></s></a>
         </div>
         <div class="pure-menu pure-menu-horizontal pure-menu-scrollable custom-menu custom-menu-bottom custom-menu-tucked"
              id="tuckedMenu">
             {#            <div class="custom-menu-screen"></div>#}
-            <ul class="pure-menu-list">
-                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link">管理</a></li>
-                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link">上传</a></li>
-                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link">收藏</a></li>
-                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link">充值</a></li>
-                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link">返回主站</a></li>
-                {% ifequal username 'login' %}
-                    <li class="pure-menu-item"><a href="/myapp/{{ username }}"
-                                                  class="pure-menu-link"> {{ username }} </a></li>
-                {% else %}
-                    <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link"> {{ username }} </a>
-                    </li>
-                {% endifequal %}
-                <li class="pure-menu-item"><a href="/myapp/logout" class="pure-menu-link"> 注销 </a></li>
+            <ul class="pure-menu-list pic-menu-heading">
+                {#                <li class="pure-menu-item"><a href="{% url 'index' %}" class="pure-menu-link pic-menu-link">管理</a></li>#}
+                <li class="pure-menu-item"><a href="{% url 'upload' %}" class="pure-menu-link pic-menu-link">上传</a></li>
+                <li class="pure-menu-item"><a href="{% url 'myfavorite' %}" class="pure-menu-link pic-menu-link">收藏</a>
+                </li>
+                <li class="pure-menu-item"><a href="{% url 'recharge' %}" class="pure-menu-link pic-menu-link">充值</a>
+                </li>
+                <li class="pure-menu-item"><a href="/home/" class="pure-menu-link pic-menu-link">返回主站</a></li>
+                <li class="pure-menu-item "><a href="/myapp/logout" class="pure-menu-link pic-menu-link"> 注销 </a></li>
             </ul>
         </div>
     </div>
-    <div class="banner">
-        <h1>
-            我的收藏
-        </h1>
+</div>
+<div class="banner-container pure-g">
+    <div class="banner pure-u-1">
+        <h1>我的收藏</h1>
     </div>
 </div>
-<div class="pure-g">
-    {% for ver in ver_list %}
-        <div class="pure-u-4-24">
-        <a href="{% url 'myapp:detail' ver.version_id %}">
-            <img class="pure-img" src="{{ ver.watermark_picture.url }}"></a>
-        <a href="#"><p>{{ ver.picture.title }}</p></a>
-        <p>作者：{{ ver.picture.author.username }}</p>
-            <button onclick="window.location.href='{% url 'cancelfavorite' ver.picture.picture_id %}'">取消收藏</button>
-        </div>
-    {% endfor %}
+
+<div class="main-wrapper">
+    <div class="pure-g">
+        {% for ver in ver_list %}
+            <div class="pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 pure-g">
+                <div class="photo-box pure-u-1">
+                    <a href="{% url 'myapp:detail' ver.version_id %}">
+                        <img class="pure-img" src="{{ ver.watermark_picture.url }}"></a>
+                    <aside>
+                        {{ ver.picture.title }}<br>
+                        作者：{{ ver.picture.author.username }}
+                    </aside>
+                </div>
+                <div class="pure-u-1 usr-button">
+                    <button class="pure-button pure-button-primary pic-button "
+                            onclick="window.location.href='{% url 'cancelfavorite' ver.picture.picture_id %}'">取消收藏
+                    </button>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
 </div>
+
 
 </body>
 <script>

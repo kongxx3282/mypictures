@@ -56,7 +56,7 @@
 </div>
 
 <div class="main-wrapper">
-    <div class="register pure-g">
+    <div class="pure-g">
         <div class="pure-u-8-24"></div>
         <div class="pure-u-8-24">
             {% if errors %}
@@ -75,8 +75,12 @@
                     <input class="pic-input" type='text' placeholder="用户名" name='account'>
                     <input class="pic-input" type='password' placeholder="密码" name='password'>
                     <input class="pic-input" type='password' placeholder="确认密码" name='password2'>
-                    <button class="pure-button pure-button-primary pic-button" type='submit' placeholder="Login" value="登录">注册
-                    </button>
+                    <div style="text-align: center">
+                        <button class="pure-button pure-button-primary pic-button" type='submit' placeholder="Login"
+                                value="登录">注册
+                        </button>
+                    </div>
+
                 </fieldset>
             </form>
         </div>
