@@ -114,11 +114,11 @@
                               enctype="multipart/form-data">{% csrf_token %}
                             <fieldset >
                                 <label for="title">标题</label>
-                                <input type="text" name="title" value="{{ picture.title }}">
+                                <input class="pic-input" type="text" name="title" value="{{ picture.title }}">
                                 <label for="description">描述</label>
-                                <textarea class="pure-input-1" type="text" name="description" value="{{ picture.description }}"></textarea>
+                                <textarea class="pic-input" class="pure-input-1" type="text" name="description" value="{{ picture.description }}"></textarea>
                                 <label for="category">分类</label>
-                                <select name="category" value="{{ picture.category }}">
+                                <select class="pic-input" name="category" value="{{ picture.category }}">
                                     <option value="animation">动漫</option>
                                     <option value="food">美食</option>
                                     <option value="scenery">风景</option>
@@ -126,8 +126,8 @@
                                     <option value="other">其它</option>
                                 </select>
                                 <label for="price">定价</label>
-                                <input type="number" name="price" value="{{ picture.price }}">
-                                <input type="file" accept="image/*" name="new_version">
+                                <input class="pic-input" type="number" name="price" value="{{ picture.price }}">
+                                <input class="pic-input" type="file" accept="image/*" name="new_version">
                             </fieldset>
                         </form>
                     </div>

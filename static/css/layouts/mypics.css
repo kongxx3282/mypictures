@@ -110,6 +110,8 @@
 input.recharge {
     margin-bottom: 0 !important;
     width: auto !important;
+}
 
-
+textarea.pic-input {
+    width: 100% !important;
 }
