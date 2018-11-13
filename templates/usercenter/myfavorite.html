@@ -66,6 +66,7 @@
             <img class="pure-img" src="{{ ver.watermark_picture.url }}"></a>
         <a href="#"><p>{{ ver.picture.title }}</p></a>
         <p>作者：{{ ver.picture.author.username }}</p>
+            <button onclick="window.location.href='{% url 'cancelfavorite' ver.picture.picture_id %}'">取消收藏</button>
         </div>
     {% endfor %}
 </div>

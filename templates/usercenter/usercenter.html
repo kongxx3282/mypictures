@@ -68,6 +68,8 @@
         </a>
 {#        <a href="{% url 'edit' ver.picture.picture_id %}"><img src="{{ ver.original_picture.url }}"></a>#}
 {#        <a href="{% url 'edit' ver.picture.picture_id %}"><p>{{ ver.picture.title }}</p></a>#}
+    <br>
+    <button onclick="window.location.href='{% url 'deletepicture' ver.picture.picture_id %}'">删除图片</button>
     {% endfor %}
 </div>
 
