@@ -112,13 +112,11 @@
                     <div id="EditInfo" style="display: none">
                         <form class="pure-form pure-form-stacked" method="post" name="edit_info" id="editForm"
                               enctype="multipart/form-data">{% csrf_token %}
-                            <fieldset>
-
-
+                            <fieldset >
                                 <label for="title">标题</label>
                                 <input type="text" name="title" value="{{ picture.title }}">
                                 <label for="description">描述</label>
-                                <textarea type="text" name="description" value="{{ picture.description }}"></textarea>
+                                <textarea class="pure-input-1" type="text" name="description" value="{{ picture.description }}"></textarea>
                                 <label for="category">分类</label>
                                 <select name="category" value="{{ picture.category }}">
                                     <option value="animation">动漫</option>
@@ -170,5 +168,6 @@
         </div>
 
     </div>
+</div>
 </body>
 </html>

@@ -81,7 +81,7 @@
 }
 
 .pic-menu .custom-menu-toggle .bar {
-    background-color:  #fb7299;
+    background-color: #fb7299;
 }
 
 .pic-menu-link {
@@ -105,4 +105,11 @@
 .usr-button {
     padding-top: 0.5em;
     padding-bottom: 1em;
+}
+
+input.recharge {
+    margin-bottom: 0 !important;
+    width: auto !important;
+
+
 }
