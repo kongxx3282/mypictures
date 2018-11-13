@@ -515,6 +515,23 @@ def set_ver_version(request, version_id):
     return HttpResponse("<script >alert('设置成功');window.location.href='/usercenter/edit/" + str(pic.picture_id) + "';</script>")
 
 
+def delete_picture(request, picture_id):
+    pic = Picture.objects.get(pk=picture_id)
+    pic.delete()
+    response = HttpResponse("<script>window.location.href='/usercenter/';</script>")
+    return response
+
+
+def cancel_favorite(request, picture_id):
+    user_id = request.COOKIES.get('cookie_userid')
+    user = MyUser.objects.get(user_id=user_id)
+    favo = Favorite.objects.filter(user=user).filter(picture_id=picture_id)
+    favo.delete()
+
+    response = HttpResponse("<script>window.location.href='/usercenter/myfavorite/';</script>")
+    return response
+
+
 def myfavorite(request):
     user_name = request.COOKIES.get('cookie_username')
     user_id = request.COOKIES.get('cookie_userid')
@@ -530,7 +547,7 @@ def myfavorite(request):
             if ver.is_newest:
                 ver_list.append(ver)
                 break
-    return render(request, 'usercenter/myfavorite.html', {'ver_list': ver_list, 'username':user_name})
+    return render(request, 'usercenter/myfavorite.html', {'ver_list': ver_list, 'username': user_name})
 
 
 def addmarker(original_picture):
