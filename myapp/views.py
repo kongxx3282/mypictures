@@ -4,8 +4,8 @@ from django.http import HttpRequest, HttpResponseRedirect, HttpResponse,Streamin
 from django.contrib.auth import authenticate, login, logout
 from datetime import datetime, timedelta
 import json
-import cv2
-import pywt
+#import cv2
+#import pywt
 import numpy
 from django.conf.urls.static import static
 from PIL import Image, ImageDraw, ImageFont
@@ -187,7 +187,6 @@ def test(request,p_id):
         list.append(i)
     image_id=list[0].picture
     path=list[0].watermark_picture.url
-    print(path)
     image=Picture.objects.filter(picture_id=image_id.picture_id)
     image_list=[]
     for k in image:
@@ -263,7 +262,7 @@ def download_file(request):
                 file = open(list[0][1:], 'rb')
                 response = StreamingHttpResponse(file)
                 response['Content-Type'] = 'application/octet-stream'
-                strg='attachment;filename="'+str(list_name[0])+'.png'
+                strg='attachment;filename="download.png"'
                 response['Content-Disposition'] = strg
                 return response
     for i in author_list[0]:
@@ -271,11 +270,10 @@ def download_file(request):
             print(i.user_id)
             print(j.user_id)
             if i.user_id==j.user_id:
-                print("enter")
                 file = open(list[0][1:], 'rb')
                 response = StreamingHttpResponse(file)
                 response['Content-Type'] = 'application/octet-stream'
-                strg = 'attachment;filename="' + str(list_name[0]) + '.png'
+                strg = 'attachment;filename="download.png"'
                 response['Content-Disposition'] = strg
                 return response
 
@@ -297,7 +295,7 @@ def download_file(request):
     file = open(list[0][1:], 'rb')
     response = StreamingHttpResponse(file)
     response['Content-Type'] = 'application/octet-stream'
-    strg = 'attachment;filename="' + str(list_name[0]) + '.png'
+    strg = 'attachment;filename="download.png"'
     response['Content-Disposition'] = strg
     return response
 
