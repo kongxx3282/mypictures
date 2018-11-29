@@ -270,7 +270,6 @@ def download_file(request):
             print(i.user_id)
             print(j.user_id)
             if i.user_id==j.user_id:
-                print("enter")
                 file = open(list[0][1:], 'rb')
                 response = StreamingHttpResponse(file)
                 response['Content-Type'] = 'application/octet-stream'
