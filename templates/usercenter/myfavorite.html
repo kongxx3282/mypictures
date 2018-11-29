@@ -24,7 +24,17 @@
     <link rel="stylesheet" href="/static/css/layouts/header.css">
     <link rel="stylesheet" href="/static/css/layouts/mypics.css">
     <link rel="stylesheet" href="/static/css/layouts/gallery.css">
-
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".photo-box").mouseover(function () {
+                $(this).children(".photo-box-caption").show();
+            });
+            $(".photo-box").mouseout(function () {
+                $(this).children(".photo-box-caption").hide();
+            });
+        });
+    </script>
     <!--<![endif]-->
 </head>
 <body>

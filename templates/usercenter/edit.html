@@ -63,6 +63,17 @@
 
         }
     </script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".photo-box").mouseover(function () {
+                $(this).children(".photo-box-caption").show();
+            });
+            $(".photo-box").mouseout(function () {
+                $(this).children(".photo-box-caption").hide();
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="header">

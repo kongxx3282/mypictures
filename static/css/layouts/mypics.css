@@ -1,3 +1,7 @@
+h1.splash-head {
+    color: #fb7299;
+}
+
 .banner {
     text-align: center;
 }
@@ -25,6 +29,11 @@
     padding-left: 2em;
     padding-right: 2em;
     margin-bottom: 3em;
+}
+
+.main-content {
+    padding-left: 1em;
+    padding-right: 1em;
 }
 
 .splash-container {
@@ -118,3 +127,32 @@ input.recharge {
 textarea.pic-input {
     width: 100% !important;
 }
+
+aside.photo-box-caption {
+    display: none;
+}
+
+.photo-box {
+    padding: 0.5em;
+}
+.photo-box img {
+    border-radius: 0.3em;
+}
+
+
+.pure-form input[type] {
+    text-align: left !important;
+}
+
+.custom-search {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+@media only screen and (max-width: 480px){
+    .pure-form button[type=submit] {
+        margin: 0 0 0 0!important;
+    }
+}
+
+

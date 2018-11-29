@@ -24,7 +24,17 @@
     <link rel="stylesheet" href="/static/css/layouts/header.css">
     <link rel="stylesheet" href="/static/css/layouts/mypics.css">
     <link rel="stylesheet" href="/static/css/layouts/gallery.css">
-
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(".photo-box").mouseover(function () {
+                $(this).children(".photo-box-caption").show();
+            });
+            $(".photo-box").mouseout(function () {
+                $(this).children(".photo-box-caption").hide();
+            });
+        });
+    </script>
 
     <!--<![endif]-->
 </head>
@@ -68,13 +78,20 @@
 </div>
 
 <div class="main-wrapper">
-    <div class="pure-g">
-
-        <div class="pure-u-1">
+    <div class="custom-search">
+        <div>
             <form class="pure-form" action="../show/{{ cate }}" method="post">
                 {% csrf_token %}
-                <input type="text" name="content" class="pic-input"/>
-                <button type="submit" class="pure-button pure-button-primary pic-button">搜索</button>
+                <div class="pure-g">
+                    <div class="pure-u-1-4 pure-u-md-1-6 pure-u-lg-3-24">
+                        <button type="submit" class="pure-button pure-button-primary pic-button">搜索</button>
+                    </div>
+                    <div class="pure-u-3-4 pure-u-md-5-6 pure-u-lg-21-24">
+                        <input type="text" name="content" class="pic-input"/>
+                    </div>
+
+                </div>
+
             </form>
         </div>
 
