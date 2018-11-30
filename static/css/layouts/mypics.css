@@ -142,12 +142,20 @@ textarea.pic-input {
     padding: 0.5em;
 }
 
+.photo-box:hover {
+    transform: translateY(-1px);
+}
+
 .photo-box img {
     border-radius: 0.35em;
 }
 
 .photo-box-caption aside {
+    position: absolute;
     font-size: 95%;
+    text-align: left;
+    bottom: 1em;
+    left: 1.5em;
 
 }
 
