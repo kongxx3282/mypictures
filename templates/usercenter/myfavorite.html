@@ -62,30 +62,33 @@
 </div>
 <div class="banner-container pure-g">
     <div class="banner pure-u-1">
-        <h1>收藏</h1>
+        <a>收藏</a>
     </div>
 </div>
 
 <div class="main-wrapper">
-    <div class="pure-g">
-        {% for ver in ver_list %}
-            <div class="pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 pure-g">
-                <div class="photo-box pure-u-1">
-                    <a href="{% url 'myapp:detail' ver.version_id %}">
-                        <img class="pure-img" src="{{ ver.watermark_picture.url }}"></a>
-                    <aside>
-                        {{ ver.picture.title }}<br>
-                        作者：{{ ver.picture.author.username }}
-                    </aside>
-                </div>
-                <div class="pure-u-1 usr-button">
-                    <button class="pure-button pure-button-primary pic-button "
-                            onclick="window.location.href='{% url 'cancelfavorite' ver.picture.picture_id %}'">取消收藏
-                    </button>
-                </div>
+    <div class="main-content">
+        <div class="pure-g">
+            {% for ver in ver_list %}
+                <div class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6">
+                    {#                    <a href="{% url 'myapp:detail' ver.version_id %}">#}
+                    <img class="pure-img" src="{{ ver.watermark_picture.url }}">
+                    <div class="photo-box-caption">
+                        <aside>
+                            {{ ver.picture.title }}
+                        </aside>
+                        <div class="photo-button">
+                            <a class="edit-button pure-button" href="{% url 'myapp:detail' ver.version_id %}">详情</a>
+                            <button class="delele-button pure-button pure-button-primary pic-button "
+                                    onclick="window.location.href='{% url 'cancelfavorite' ver.picture.picture_id %}'">
+                                取消收藏
+                            </button>
+                        </div>
+                    </div>
 
-            </div>
-        {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 

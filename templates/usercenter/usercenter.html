@@ -62,32 +62,32 @@
 </div>
 <div class="banner-container pure-g">
     <div class="banner pure-u-1">
-        <h1>Hello, {{ username }}</h1>
+        <a>Hello, {{ username }}</a>
     </div>
 </div>
 
 <div class="main-wrapper">
-    <div class="pure-g">
-        {% for ver in ver_list %}
-            <div class="pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 pure-g">
-                <div class="photo-box pure-u-1">
-                    <a href="{% url 'edit' ver.picture.picture_id %}">
-                        <img class="pure-img" src="{{ ver.original_picture.url }}">
-                        <aside class="photo-box-caption">{{ ver.picture.title }}</aside>
-                        <div class="text-box-head">123</div>
-                    </a>
-                </div>
-                <div class="pure-u-1 usr-button">
-                    <button class="pure-button pure-button-primary pic-button"
-                            onclick="window.location.href='{% url 'deletepicture' ver.picture.picture_id %}'">删除
-                    </button>
-                </div>
-            </div>
+    <div class="main-content">
+        <div class="pure-g">
+            {% for ver in ver_list %}
+                <div class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6">
+                    <img class=" pure-img" src="{{ ver.original_picture.url }}">
+                    <div class="photo-box-caption">
+                        <aside>{{ ver.picture.title }}</aside>
+                        <div class="photo-button">
+                             <a class="edit-button pure-button"
+                               href="{% url 'edit' ver.picture.picture_id %}">编辑</a>
+                            <button class="delele-button pure-button pure-button-primary pic-button"
+                                    onclick="window.location.href='{% url 'deletepicture' ver.picture.picture_id %}'">删除
+                            </button>
+                        </div>
 
-            {#        <a href="{% url 'edit' ver.picture.picture_id %}"><img src="{{ ver.original_picture.url }}"></a>#}
-            {#        <a href="{% url 'edit' ver.picture.picture_id %}"><p>{{ ver.picture.title }}</p></a>#}
-        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
+</div>
 </div>
 
 </body>

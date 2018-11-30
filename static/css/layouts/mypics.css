@@ -1,9 +1,15 @@
 html {
     text-transform: capitalize;
+    background-color: #f5f5f5;
+}
+
+body {
+    font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
 }
 
 h1.splash-head {
     color: #fb7299;
+    font-family: sans-serif;
 }
 
 .banner {
@@ -31,10 +37,11 @@ h1.splash-head {
 }
 
 .main-wrapper {
-    margin-top: 2em;
+    padding-top: 1.5em;
     padding-left: 2em;
     padding-right: 2em;
     margin-bottom: 3em;
+    background: #f5f5f5;
 }
 
 .main-content {
@@ -60,6 +67,7 @@ h1.splash-head {
 
 .home-menu .pure-menu-heading {
     color: #fb7299;
+    font-family: sans-serif;
     font-weight: bolder;
     padding-left: 2em;
     padding-right: 2em;
@@ -86,14 +94,44 @@ h1.splash-head {
 }
 
 .banner-container {
-    background: #f5f5f5;
-
+    background: #fafafa;
+    display: block;
+    text-align: center;
 }
 
 .banner {
+    position: relative;
     text-align: center;
-    margin-top: 2.5em;
-    margin-bottom: 2.5em;
+    display: inline-block;
+    width: 9em;
+    font-weight: lighter;
+    font-size: 2em;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.banner::before {
+    left: 0;
+    display: block;
+    position: absolute;
+    vertical-align: center;
+    /*top: 28px;*/
+    top: 0.4em;
+    width: 18%;
+    content: "";
+    border-top: 1px solid #cccccc;
+}
+
+.banner::after {
+    right: 0;
+    display: block;
+    position: absolute;
+    vertical-align: center;
+    /*top: 28px;*/
+    top: 0.4em;
+    width: 18%;
+    content: "";
+    border-top: 1px solid #cccccc;
 }
 
 .pic-menu .custom-menu-toggle .bar {
@@ -102,6 +140,10 @@ h1.splash-head {
 
 .pic-menu-link {
     color: #222222 !important;
+}
+
+.work-wrapper {
+    position: relative;
 }
 
 @media screen and (min-width: 48em) {
@@ -152,11 +194,31 @@ textarea.pic-input {
 
 .photo-box-caption aside {
     position: absolute;
-    font-size: 95%;
+    font-size: 90%;
     text-align: left;
-    bottom: 1em;
+    bottom: 1.2em;
     left: 1.5em;
 
+}
+
+.photo-button {
+    position: absolute;
+    font-size: 85%;
+    text-align: left;
+    top: 1.3em;
+    left: 1.5em;
+}
+
+.delele-button {
+    padding: 0.5em 1em;
+    border-radius: 0 0.18em 0.18em 0;
+}
+
+.edit-button {
+    padding: 0.5em 1em;
+    border-radius: 0.18em 0 0 0.18em;
+    background-color: white;
+    color: #fb7299;
 }
 
 .pure-form input[type] {
@@ -164,8 +226,61 @@ textarea.pic-input {
 }
 
 .custom-search {
-    padding-left: 1em;
-    padding-right: 1em;
+    position: relative;
+    margin-left: 1.2em;
+    margin-right: 1.2em;
+    margin-bottom: 1.2em;
+    border: 1px solid #ededed;
+    background-color: #fafafa;
+    border-radius: 0.2em;
+}
+
+.custom-search .pure-form {
+    margin: 0.75em;
+}
+
+.custom-search input[type] {
+    margin: 0;
+}
+
+.custom-search .pure-button {
+    width: 94%;
+}
+
+.search-cate {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tags {
+    border-top: 1px solid #EDEDED;
+    position: relative;
+    padding-bottom: 0;
+}
+
+.tag {
+    font-size: 0.87em;
+    height: 3.5em;
+    line-height: 3.5em;
+    padding: 0 1.4em;
+    color: #777;
+    border-right: 1px solid #EDEDED;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.pin {
+    background: #fff;
+    color: #444;
+    font-weight: 700;
+}
+
+.detail {
+    padding-right: 1.7em;
 }
 
 @media only screen and (max-width: 480px) {
