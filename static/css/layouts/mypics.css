@@ -318,3 +318,7 @@ textarea.pic-input {
     content: "";
     border-top: 1px solid #dddddd;
 }
+
+input#chooseImage {
+    border: none;
+}
