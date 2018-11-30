@@ -73,7 +73,7 @@
         <h1 class="splash-head">My Pictures</h1>
         <form class="pure-form" action="../home/" method="post">
             {% csrf_token %}
-{#            <label></label>#}
+            {#            <label></label>#}
             <input type="text" name="content" class="pic-input"/>
             <button type="submit" class="pure-button pure-button-primary pic-button">搜 索</button>
         </form>
@@ -83,19 +83,23 @@
 
 <div class="content-wrapper">
     <div class="content">
-        <h2><b>最新</b></h2>
+        <div class="recommend-line">
+            <a>最新</a>
+        </div>
         <div class="pure-g">
             {% for v in newlist %}
                 <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
                     <img src="{{ v.pic }}" alt="error">
-                    <aside class="photo-box-caption">{{ v.title }}</aside>
+                    <div class="photo-box-caption"><aside>{{ v.title }}</aside></div>
                 </a>
             {% endfor %}
         </div>
     </div>
 
     <div class="content">
-        <h2><b>最热</b></h2>
+        <div class="recommend-line">
+            <a>最热</a>
+        </div>
         <div class="pure-g">
             {% for v in hotlist %}
                 <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">
@@ -107,7 +111,9 @@
     </div>
 
     <div class="content">
-        <h2><b>全部</b></h2>
+        <div class="recommend-line">
+            <a>全部</a>
+        </div>
         <div class="pure-g">
             {% for v in alllist %}
                 <a class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6" href="/myapp/test/{{ v.id }}">

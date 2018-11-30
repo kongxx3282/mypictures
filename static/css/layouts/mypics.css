@@ -1,3 +1,7 @@
+html {
+    text-transform: capitalize;
+}
+
 h1.splash-head {
     color: #fb7299;
 }
@@ -15,12 +19,14 @@ h1.splash-head {
 }
 
 .content {
-    /*margin: 1em;*/
+    padding: 0 1em 1em 1em;
 }
 
 .content-wrapper {
     padding-left: 2em;
     padding-right: 2em;
+    padding-top: 1em;
+    padding-bottom: 2em;
     background-color: #f5f5f5;
 }
 
@@ -128,17 +134,22 @@ textarea.pic-input {
     width: 100% !important;
 }
 
-aside.photo-box-caption {
+.photo-box-caption {
     display: none;
 }
 
 .photo-box {
     padding: 0.5em;
 }
+
 .photo-box img {
-    border-radius: 0.3em;
+    border-radius: 0.35em;
 }
 
+.photo-box-caption aside {
+    font-size: 95%;
+
+}
 
 .pure-form input[type] {
     text-align: left !important;
@@ -149,10 +160,38 @@ aside.photo-box-caption {
     padding-right: 1em;
 }
 
-@media only screen and (max-width: 480px){
+@media only screen and (max-width: 480px) {
     .pure-form button[type=submit] {
-        margin: 0 0 0 0!important;
+        margin: 0 0 0 0 !important;
     }
 }
 
+.recommend-line {
+    position: relative;
+    padding: 20px 0;
+    text-align: center;
+}
 
+.recommend-line a {
+    color: #999;
+}
+
+.recommend-line::before {
+    left: 0;
+    display: block;
+    position: absolute;
+    top: 28px;
+    width: 44%;
+    content: "";
+    border-top: 1px solid #dddddd;
+}
+
+.recommend-line::after {
+    right: 0;
+    display: block;
+    position: absolute;
+    top: 28px;
+    width: 44%;
+    content: "";
+    border-top: 1px solid #dddddd;
+}

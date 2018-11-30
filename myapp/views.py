@@ -52,12 +52,12 @@ def home(request):
         newid.append(id)
         alllist.append({'pic': v.watermark_picture.url, 'id': v.version_id, 'title':v.picture.title})
 
-    newversions = Version.objects.filter(is_newest=True).order_by('-upload_time')[ :6]   #按照时间降序排列取前10个
+    newversions = Version.objects.filter(is_newest=True).order_by('-upload_time')[ :12]   #按照时间降序排列取前10个
     newlist = []
     for n in newversions:
         newlist.append({'pic':n.watermark_picture.url,'id':n.version_id, 'title':n.picture.title})
 
-    hotpicture = Picture.objects.filter(picture_id__in=newid).order_by('-favorite_number')[ :6]   #按照收藏数降序排列取前10个
+    hotpicture = Picture.objects.filter(picture_id__in=newid).order_by('-favorite_number')[ :11]   #按照收藏数降序排列取前10个
     hlist = []
     for p in hotpicture:
         id = p.picture_id

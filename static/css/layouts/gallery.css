@@ -39,30 +39,26 @@ h1, h2, h3, h4, h5, h6 {
     object-fit: cover;
 }
 
-.photo-box aside {
+.photo-box .photo-box-caption {
     position: absolute;
     bottom: 0;
-    right: 0;
+    top: 0;
+    left: 0;
     padding: 1em 0.5em;
     color: white;
     width: 100%;
-    font-size: 80%;
     text-align: right;
-    background: -moz-linear-gradient(top, rgba(16, 27, 30, 0) 0%, rgba(12, 2, 2, 1) 150%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(16, 27, 30, 0)), color-stop( 150%, rgba(12, 2, 2, 1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, rgba(16, 27, 30, 0) 0%, rgba(12, 2, 2, 1)  150%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, rgba(16, 27, 30, 0) 0%, rgba(12, 2, 2, 1)  150%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, rgba(16, 27, 30, 0) 0%, rgba(12, 2, 2, 1)  150%); /* IE10+ */
-    background: linear-gradient(to bottom, rgba(16, 27, 30, 0) 0%, rgba(12, 2, 2, 1)  150%); /* W3C */
+    border-radius: 0.5em;
+    background: rgba(0,0,0,0.1);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00101b1e', endColorstr='#0c0202', GradientType=0); /* IE6-9 */
 
 }
 
-.photo-box aside span {
+.photo-box .photo-box-caption span {
     color: #aaa;
 }
 
-.photo-box aside span a {
+.photo-box .photo-box-caption span a {
     color: #ccc;
     text-decoration: none;
 }
