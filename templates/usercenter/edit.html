@@ -172,27 +172,24 @@
         <div class="recommend-line">
             <a>历史版本</a>
         </div>
-        <div class="pure-g">
-            <div class="work-wrapper">
-                <div class="work-content">
-                    <div class="pure-g">
-                        {% for ver in versions %}
-                            <div class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 ">
-                                <img src="{{ ver.original_picture.url }}">
-                                <div class="photo-box-caption">
-                                    <div class="photo-button">
-                                        <button class="new-button pure-button pure-button-primary pic-button"
-                                                onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">
-                                            设为最新
-                                        </button>
-                                    </div>
+        <div class="work-wrapper">
+            <div class="work-content">
+                <div class="pure-g" style="padding-top: 0.5em; padding-bottom: 0.5em">
+                    {% for ver in versions %}
+                        <div class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 ">
+                            <img src="{{ ver.original_picture.url }}">
+                            <div class="photo-box-caption">
+                                <div class="photo-button">
+                                    <button class="new-button pure-button pure-button-primary pic-button"
+                                            onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">
+                                        设为最新
+                                    </button>
                                 </div>
                             </div>
+                        </div>
 
-                        {% endfor %}
-                    </div>
+                    {% endfor %}
                 </div>
-
             </div>
         </div>
     </div>
