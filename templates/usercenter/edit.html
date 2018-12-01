@@ -127,7 +127,7 @@
                             <div class="work-intro"><a>简介</a> {{ picture.description }}</div>
                             <hr>
                         </div>
-                        <div id="EditInfo" style="display: none">
+                        <div id="EditInfo" style="width: 100% ;display: none">
                             <form class="pure-form pure-form-stacked" method="post" name="edit_info" id="editForm"
                                   enctype="multipart/form-data">{% csrf_token %}
                                 <fieldset>
@@ -151,17 +151,17 @@
                                 </fieldset>
                             </form>
                         </div>
-                        <div class="work-button" style="margin-bottom: 0">
-                            <button class="pure-button pure-button-primary pic-button" id="startEdit"
-                                    onclick="editPictureInfo()">编辑
-                            </button>
-                            <button class="fav-button pure-button pure-button-primary pic-button" id="confirmEdit"
-                                    style="display: none" onclick="editSubmit()">确定
-                            </button>
-                            <button class="dload-button pure-button pure-button-primary pic-button" id="cancel_btn"
-                                    style="display: none" onclick="cancel()">取消
-                            </button>
-                        </div>
+                    </div>
+                    <div class="work-button" style="margin-bottom: 0">
+                        <button class="pure-button pure-button-primary pic-button" id="startEdit"
+                                onclick="editPictureInfo()">编辑
+                        </button>
+                        <button class="fav-button pure-button pure-button-primary pic-button" id="confirmEdit"
+                                style="display: none" onclick="editSubmit()">确定
+                        </button>
+                        <button class="dload-button pure-button pure-button-primary pic-button" id="cancel_btn"
+                                style="display: none" onclick="cancel()">取消
+                        </button>
                     </div>
 
                 </div>
