@@ -7,6 +7,19 @@ body {
     font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif;
 }
 
+.pure-button-hover, .pure-button:focus, .pure-button:hover {
+    background-image: linear-gradient(transparent, rgba(0, 0, 0, .05) 0%, rgba(0, 0, 0, .05));;
+}
+
+hr {
+    border-top: 1px solid #efefef;
+    margin: 0.5em 0;
+}
+
+a.pure-menu-link:hover {
+    color: #fb7299 !important;
+}
+
 h1.splash-head {
     color: #fb7299;
     font-family: sans-serif;
@@ -142,30 +155,10 @@ h1.splash-head {
     color: #222222 !important;
 }
 
-.work-wrapper {
-    position: relative;
-}
-
-@media screen and (min-width: 48em) {
-    .work-wrapper {
-        padding-left: 5em;
-        padding-right: 5em;
-    }
-}
-
-.work-content {
-    padding-right: 2em;
-    padding-left: 2em;
-}
-
-.work-img {
-    width: 100%;
-}
-
-.usr-button {
-    padding-top: 0.5em;
-    padding-bottom: 1em;
-}
+/*.usr-button {*/
+/*padding-top: 0.5em;*/
+/*padding-bottom: 1em;*/
+/*}*/
 
 input.recharge {
     margin-bottom: 0 !important;
@@ -219,6 +212,36 @@ textarea.pic-input {
     border-radius: 0.18em 0 0 0.18em;
     background-color: white;
     color: #fb7299;
+}
+
+.work-button {
+    text-align: left;
+    position: relative;
+    margin-bottom: 1em;
+}
+
+i.fa.fa-search-plus {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0.6em;
+}
+
+i.fa.fa-search-plus:hover {
+    background: rgb(230, 230, 230);
+    border-radius: 2em;
+}
+
+.fav-button {
+    padding: 0.5em 1em;
+    border-radius: 0.2em 0 0 0.2em;
+    background-color: rgb(238, 238, 238);
+    color: #fb7299;
+}
+
+.dload-button {
+    padding: 0.5em 1em;
+    border-radius: 0 0.2em 0.2em 0;
 }
 
 .pure-form input[type] {
@@ -321,4 +344,65 @@ textarea.pic-input {
 
 input#chooseImage {
     border: none;
+}
+
+.work-wrapper {
+    position: relative;
+    background: white;
+    border-radius: 0.6em;
+}
+
+.work-content {
+    margin: 1em 1.5em;
+}
+
+.work-img {
+    width: 100%;
+    border-radius: 0.5em;
+}
+
+.work-side a {
+    font-weight: bolder;
+}
+
+.work-side {
+    font-size: 95%;
+    text-align: left;
+    position: relative;
+    margin-top: 0.5em;
+}
+
+.work-side div {
+    display: inline-block;
+
+}
+
+.work-detail {
+    margin-right: 0.5em;
+    margin-bottom: 0.3em;
+}
+
+.work-tag {
+    background: #FAFAFA;
+    border: 1px solid #EDEDED;
+    padding-left: 0.5em;
+    padding-right: 1em;
+    margin-right: 0.2em;
+    border-radius: 1em;
+    color: #999;
+}
+
+.work-tag a {
+    font-weight: normal;
+    color: #444;
+}
+
+.work-tags {
+    font-size: 90%;
+    margin-bottom: 0.3em;
+}
+
+.work-intro{
+    margin-top: 0.3em;
+    margin-bottom: 0.3em;
 }
