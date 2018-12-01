@@ -31,13 +31,13 @@
             var info_div = document.getElementById('PictureInfo');
             info_div.style.display = 'none';
             var edit_div = document.getElementById('EditInfo');
-            edit_div.style.display = 'block';
+            edit_div.style.display = 'inline-block';
             var edit_btn = document.getElementById('startEdit');
             edit_btn.style.display = 'none';
             var confirm_btn = document.getElementById('confirmEdit');
-            confirm_btn.style.display = 'block';
+            confirm_btn.style.display = 'inline-block';
             var cancel_btn = document.getElementById('cancel_btn');
-            confirm_btn.style.display = 'block';
+            cancel_btn.style.display = 'inline-block';
 
         }
 
@@ -49,17 +49,15 @@
 
         function cancel() {
             var info_div = document.getElementById('PictureInfo');
-            info_div.style.display = 'block';
+            info_div.style.display = 'inline-block';
             var edit_div = document.getElementById('EditInfo');
             edit_div.style.display = 'none';
             var edit_btn = document.getElementById('startEdit');
-            edit_btn.style.display = 'block';
+            edit_btn.style.display = 'inline-block';
             var confirm_btn = document.getElementById('confirmEdit');
             confirm_btn.style.display = 'none';
-            var upload_btn = document.getElementById('upload_btn');
-            upload_btn.style.display = 'block';
             var cancel_btn = document.getElementById('cancel_btn');
-            confirm_btn.style.display = 'none';
+            cancel_btn.style.display = 'none';
 
         }
     </script>
@@ -104,87 +102,111 @@
     </div>
 </div>
 <div class="main-wrapper">
-    <div class="work-wrapper">
-        <h3>最新版本</h3>
-        <div class="pure-g">
-            <div class="pure-u-1 pure-u-lg-3-5">
-                <div class="work-content">
-                    <img class="pure-img-responsive work-img" src="{{ newest_ver.original_picture.url }}">
-                </div>
-            </div>
-            <div class="pure-u-1 pure-u-lg-2-5">
-                <div class="work-content">
-                    <div id="PictureInfo">
-                        <h4>{{ picture.title }}</h4>
-                        <p>描述： {{ picture.description }}</p>
-                        <p>分类： {{ picture.category }}</p>
-                        <p>价值： {{ picture.price }}</p>
-                    </div>
-                    <div id="EditInfo" style="display: none">
-                        <form class="pure-form pure-form-stacked" method="post" name="edit_info" id="editForm"
-                              enctype="multipart/form-data">{% csrf_token %}
-                            <fieldset>
-                                <label for="title">标题</label>
-                                <input class="pic-input" type="text" name="title" value="{{ picture.title }}">
-                                <label for="description">描述</label>
-                                <textarea class="pic-input" class="pure-input-1" type="text" name="description"
-                                          value="{{ picture.description }}"></textarea>
-                                <label for="category">分类</label>
-                                <select class="pic-input" name="category" value="{{ picture.category }}">
-                                    <option value="animation">动漫</option>
-                                    <option value="food">美食</option>
-                                    <option value="scenery">风景</option>
-                                    <option value="people">人像</option>
-                                    <option value="other">其它</option>
-                                </select>
-                                <label for="price">定价</label>
-                                <input class="pic-input" type="number" name="price" value="{{ picture.price }}">
-                                <input class="pic-input" type="file" accept="image/*" name="new_version">
-                            </fieldset>
-                        </form>
-                    </div>
-                    <button class="pure-button pure-button-primary pic-button" id="startEdit"
-                            onclick="editPictureInfo()">编辑
-                    </button>
-                    <button class="pure-button pure-button-primary pic-button" id="confirmEdit" style="display: none"
-                            onclick="editSubmit()">确定
-                    </button>
-                    <button class="pure-button pure-button-primary pic-button" id="cancel_btn" style="display: none"
-                            onclick="cancel()">取消
-                    </button>
-                    <br>
-                </div>
-            </div>
+    <div class="main-content">
+        <div class="recommend-line">
+            <a>最新版本</a>
         </div>
-
-    </div>
-
-
-    <div class="work-wrapper">
-        <h3>历史版本</h3>
-        <div class="work-content">
-            <div class="pure-g">
-                {% for ver in versions %}
-                    <div class="pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 ">
-                        <div class="pure-g">
-                            <div class="photo-box pure-u-1">
-                                <img src="{{ ver.original_picture.url }}">
+        <div class="pure-g">
+            <div class="pure-u-1 pure-u-md-1-5 pure-u-lg-1-4"></div>
+            <div class="work-wrapper pure-u-1 pure-u-md-3-5 pure-u-lg-1-2">
+                {#        <h3>最新版本</h3>#}
+                <div class="work-content">
+                    <div class="work-main">
+                        <img class="pure-img-responsive work-img" src="{{ newest_ver.original_picture.url }}">
+                    </div>
+                    <div class="work-side">
+                        <div id="PictureInfo" style="width: 100%">
+                            <div class="work-detail">
+                                <div><a>标题</a> {{ picture.title }}</div>
                             </div>
-                            <div class="pure-u-1 usr-button">
-                                <button class="pure-button pure-button-primary pic-button"
-                                        onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">设为最新
-                                </button>
+                            <div class="work-tags">
+                                <div class="work-tag"><a>分类</a> {{ picture.category }}</div>
+                                <div class="work-tag"><a>价格</a> {{ picture.price }}</div>
                             </div>
+                            <hr>
+                            <div class="work-intro"><a>简介</a> {{ picture.description }}</div>
+                            <hr>
+                        </div>
+                        <div id="EditInfo" style="display: none">
+                            <form class="pure-form pure-form-stacked" method="post" name="edit_info" id="editForm"
+                                  enctype="multipart/form-data">{% csrf_token %}
+                                <fieldset>
+                                    <input class="pic-input" type="file" accept="image/*" name="new_version"
+                                           id="updateimage">
+                                    <label for="title">标题</label>
+                                    <input class="pic-input" type="text" name="title" value="{{ picture.title }}">
+                                    <label for="category">分类</label>
+                                    <select class="pic-input" name="category" value="{{ picture.category }}">
+                                        <option value="animation">动漫</option>
+                                        <option value="food">美食</option>
+                                        <option value="scenery">风景</option>
+                                        <option value="people">人像</option>
+                                        <option value="other">其它</option>
+                                    </select>
+                                    <label for="price">价格</label>
+                                    <input class="pic-input" type="number" name="price" value="{{ picture.price }}">
+                                    <label for="description">简介</label>
+                                    <textarea class="pic-input" class="pure-input-1" type="text" name="description"
+                                              value="{{ picture.description }}"></textarea>
+                                </fieldset>
+                            </form>
+                        </div>
+                        <div class="work-button" style="margin-bottom: 0">
+                            <button class="pure-button pure-button-primary pic-button" id="startEdit"
+                                    onclick="editPictureInfo()">编辑
+                            </button>
+                            <button class="fav-button pure-button pure-button-primary pic-button" id="confirmEdit"
+                                    style="display: none" onclick="editSubmit()">确定
+                            </button>
+                            <button class="dload-button pure-button pure-button-primary pic-button" id="cancel_btn"
+                                    style="display: none" onclick="cancel()">取消
+                            </button>
                         </div>
                     </div>
 
-                {% endfor %}
+                </div>
+
+            </div>
+            <div class="pure-u-1 pure-u-md-1-5 pure-u-lg-1-4"></div>
+        </div>
+        <div class="recommend-line">
+            <a>历史版本</a>
+        </div>
+        <div class="pure-g">
+            <div class="work-wrapper">
+                <div class="work-content">
+                    <div class="pure-g">
+                        {% for ver in versions %}
+                            <div class="photo-box pure-u-1 pure-u-md-1-3 pure-u-lg-1-6 ">
+                                <img src="{{ ver.original_picture.url }}">
+                                <div class="photo-box-caption">
+                                    <div class="photo-button">
+                                        <button class="new-button pure-button pure-button-primary pic-button"
+                                                onclick="window.location.href='{% url 'setnewversion' ver.version_id %}'">
+                                            设为最新
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endfor %}
+                    </div>
+                </div>
+
             </div>
         </div>
-
     </div>
+</div>
 
 </div>
 </div>
 </body>
+<script>
+    (function (window, document) {
+        document.getElementById('toggle').addEventListener('click', function (e) {
+            document.getElementById('tuckedMenu').classList.toggle('custom-menu-tucked');
+            document.getElementById('toggle').classList.toggle('x');
+        });
+    })(this, this.document);
+</script>
 </html>

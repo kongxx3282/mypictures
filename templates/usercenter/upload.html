@@ -69,8 +69,6 @@
                         <input class="pic-input" type="file" accept="image/*" id="chooseImage" name="original">
                         <label for="title">标题</label>
                         <input class="pic-input" type="text" name="title">
-                        <label for="description">描述</label>
-                        <textarea class="pic-input" type="text" name="description"></textarea>
                         <label for="category">分类</label>
                         <select class="pic-input" id="category" name="category">
                             <option value="animation">动漫</option>
@@ -79,8 +77,11 @@
                             <option value="people">人像</option>
                             <option value="other">其它</option>
                         </select>
-                        <label for="price">定价</label>
-                        <input class="pic-input" type="number" name="price"><br>
+                        <label for="price">价格</label>
+                        <input class="pic-input" type="number" name="price">
+                        <label for="description">简介</label>
+                        <textarea class="pic-input" type="text" name="description"
+                                  style="margin-bottom: 1em"></textarea>
                         <div style="text-align: center">
                             <button class="pure-button pure-button-primary pic-button" type="submit" value="上传">上传
                             </button>

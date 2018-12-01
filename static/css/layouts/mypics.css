@@ -11,6 +11,10 @@ body {
     background-image: linear-gradient(transparent, rgba(0, 0, 0, .05) 0%, rgba(0, 0, 0, .05));;
 }
 
+.pure-form input[type=file]:focus, .pure-form input[type=checkbox]:focus, .pure-form input[type=radio]:focus {
+    outline: #fb7299 auto 1px;
+}
+
 hr {
     border-top: 1px solid #efefef;
     margin: 0.5em 0;
@@ -214,6 +218,11 @@ textarea.pic-input {
     color: #fb7299;
 }
 
+.new-button {
+    padding: 0.5em 1em;
+    border-radius: 0.18em;
+}
+
 .work-button {
     text-align: left;
     position: relative;
@@ -346,10 +355,16 @@ input#chooseImage {
     border: none;
 }
 
+input#updateimage {
+    border: none;
+}
+
 .work-wrapper {
     position: relative;
     background: white;
     border-radius: 0.6em;
+    margin-top: 0.5em;
+    margin-bottom: 1.5em;
 }
 
 .work-content {
@@ -378,17 +393,17 @@ input#chooseImage {
 }
 
 .work-detail {
-    margin-right: 0.5em;
+    margin-right: 1em;
     margin-bottom: 0.3em;
 }
 
 .work-tag {
-    background: #FAFAFA;
-    border: 1px solid #EDEDED;
+    background: #f4f4f4;
+    border: 1px solid #dddddd;
     padding-left: 0.5em;
     padding-right: 1em;
     margin-right: 0.2em;
-    border-radius: 1em;
+    border-radius: 0.5em;
     color: #999;
 }
 
@@ -402,7 +417,7 @@ input#chooseImage {
     margin-bottom: 0.3em;
 }
 
-.work-intro{
+.work-intro {
     margin-top: 0.3em;
     margin-bottom: 0.3em;
 }
